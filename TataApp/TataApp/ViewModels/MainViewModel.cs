@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.ObjectModel;
+using TataApp.Models;
 
 namespace TataApp.ViewModels
 {
@@ -11,17 +7,35 @@ namespace TataApp.ViewModels
     {
         #region Propierties
         public ObservableCollection<MenuItemViewModel> Menu { get; set; }
-
+        public Employee Employee { get; set; }
         public LoginViewModel Login { get; set; }
         #endregion
 
+        #region Constructors
         public MainViewModel()
         {
+            instance = this;
             Menu = new ObservableCollection<MenuItemViewModel>();
             Login = new LoginViewModel();
             LoadMenu();
         }
+        #endregion
 
+        #region Singleton
+        private static MainViewModel instance;
+
+        public static MainViewModel GetInstance()
+        {
+            if (instance == null)
+            {
+                instance = new MainViewModel();
+            }
+
+            return instance;
+        }
+        #endregion
+
+        #region Methods
         private void LoadMenu()
         {
             Menu = new ObservableCollection<MenuItemViewModel>();
@@ -30,7 +44,7 @@ namespace TataApp.ViewModels
             {
                 Title = "Regiter Time",
                 Icon = "ic_access_alarms.png",
-                PageName = "RegisterTimePage", 
+                PageName = "RegisterTimePage",
             });
 
             Menu.Add(new MenuItemViewModel
@@ -53,6 +67,7 @@ namespace TataApp.ViewModels
                 Icon = "ic_close.png",
                 PageName = "LoginPage",
             });
-        }
+        } 
+        #endregion
     }
 }

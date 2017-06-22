@@ -9,6 +9,7 @@
         <StackLayout
             Padding="5">
             <Image
+                BackgroundColor="Transparent"
                 Source="Tata.png">
             </Image>
             <ListView
@@ -19,6 +20,9 @@
                     <DataTemplate>
                         <ViewCell>
                             <Grid>
+                                <Grid.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding NavigateCommand}"/>
+                                </Grid.GestureRecognizers>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto"></ColumnDefinition>
                                     <ColumnDefinition Width="*"></ColumnDefinition>
@@ -32,7 +36,8 @@
                                     Grid.Column="1"
                                     VerticalOptions="Center"
                                     TextColor="{StaticResource MenuFontColor}"
-                                    Text="{Binding Title}"/>
+                                    Text="{Binding Title}">
+                                </Label>
                             </Grid>
                         </ViewCell>
                     </DataTemplate>

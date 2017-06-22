@@ -1,14 +1,50 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin.Abstractions"
              x:Class="TataApp.Views.HomePage"
              Title="TATA App"
-             BackgroundColor="{StaticResource BackgroundColor}">
+             BackgroundColor="{StaticResource BackgroundColor}"
+             BindingContext="{Binding Main, Source={StaticResource Locator}}">
     <ContentPage.Content>
-        <StackLayout>
-            <Label 
+        <StackLayout
+            HorizontalOptions="Center"
+            VerticalOptions="Center">
+            <Label
+                HorizontalOptions="Center"
+                VerticalOptions="Center"
+                FontSize="Medium"
                 TextColor="{StaticResource FontColor}"
-                Text="HomePage" />
+                Text="Welcome">
+            </Label>
+            <Label
+                HorizontalOptions="Center"
+                VerticalOptions="Center"
+                FontSize="Large"
+                FontAttributes="Bold"
+                TextColor="{StaticResource FontColor}"
+                Text="{Binding Employee.FullName}">
+            </Label>
+            <controls:CircleImage 
+                Source="{Binding Employee.FullPicture}" 
+                Aspect="AspectFill"
+                WidthRequest="250"
+                HeightRequest="250">
+            </controls:CircleImage>
+            <Label
+                HorizontalOptions="Center"
+                VerticalOptions="Center"
+                FontSize="Medium"
+                TextColor="{StaticResource FontColor}"
+                Text="{Binding Employee.EmployeeCode, StringFormat='Code: {0}'}}">
+            </Label>
+            <Label
+                HorizontalOptions="Center"
+                VerticalOptions="Center"
+                FontSize="Medium"
+                TextColor="{StaticResource FontColor}"
+                Text="{Binding Employee.Email, StringFormat='Email: {0}'}}">
+            </Label>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

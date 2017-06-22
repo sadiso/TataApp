@@ -8,6 +8,10 @@
 		<!-- Application resource dictionary -->
             <!-- Locator -->
             <infra:InstanceLocator x:Key="Locator"></infra:InstanceLocator>
+
+            <!-- Parameters -->
+            <x:String x:Key="URLAPI">http://tataappapi.azurewebsites.net</x:String>
+            <x:String x:Key="URLBackend">http://tataappbackend.azurewebsites.net</x:String>
             
             <!-- Color -->
             <Color x:Key="MainColor">#063355</Color>

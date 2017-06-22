@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using TataApp.Models;
+using TataApp.Services;
+using TataApp.ViewModels;
 using TataApp.Views;
 using Xamarin.Forms;
 
@@ -9,15 +9,36 @@ namespace TataApp
 {
     public partial class App : Application
     {
-        public static NavigationPage Navigator { get; internal set; }
+        #region Attributes
+        private DataService dataService;
+        #endregion
 
+        #region Properties
+        public static NavigationPage Navigator { get; internal set; }
+        #endregion
         public App()
         {
             InitializeComponent();
 
-            MainPage = new MasterPage();
+            dataService = new DataService();
+
+            var employee = dataService.First<Employee>(false);
+
+            if (employee != null &&
+                employee.IsRemembered &&
+                employee.TokenExpires > DateTime.Now)
+            {
+                var mainViewModel = MainViewModel.GetInstance();
+                mainViewModel.Employee = employee;
+                MainPage = new MasterPage();
+            }
+            else
+            {
+                MainPage = new LoginPage();
+            }
         }
 
+        #region Methods
         protected override void OnStart()
         {
             // Handle when your app starts
@@ -31,6 +52,7 @@ namespace TataApp
         protected override void OnResume()
         {
             // Handle when your app resumes
-        }
+        } 
+        #endregion
     }
 }
