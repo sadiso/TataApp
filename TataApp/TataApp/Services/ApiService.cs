@@ -152,7 +152,45 @@ namespace TataApp.Services
                 };
             }
         }
+        public async Task<Response> GetList<T>(
+            string urlBase, string servicePrefix, string controller,
+            string tokenType, string accessToken, int id)
+        {
+            try
+            {
+                var client = new HttpClient();
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(tokenType, accessToken);
+                client.BaseAddress = new Uri(urlBase);
+                var url = string.Format("{0}{1}/{2}", servicePrefix, controller, id);
+                var response = await client.GetAsync(url);
 
+                if (!response.IsSuccessStatusCode)
+                {
+                    return new Response
+                    {
+                        IsSuccess = false,
+                        Message = response.StatusCode.ToString(),
+                    };
+                }
+
+                var result = await response.Content.ReadAsStringAsync();
+                var list = JsonConvert.DeserializeObject<List<T>>(result);
+                return new Response
+                {
+                    IsSuccess = true,
+                    Message = "Ok",
+                    Result = list,
+                };
+            }
+            catch (Exception ex)
+            {
+                return new Response
+                {
+                    IsSuccess = false,
+                    Message = ex.Message,
+                };
+            }
+        }
         public async Task<Response> Post<T>(string urlBase, string servicePrefix, string controller,
             string tokenType, string accessToken, T model)
         {

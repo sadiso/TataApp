@@ -15,7 +15,10 @@ namespace TataApp
 
         #region Properties
         public static NavigationPage Navigator { get; internal set; }
+        public static MasterPage Master { get; internal set; }
         #endregion
+
+        #region Constructors
         public App()
         {
             InitializeComponent();
@@ -36,7 +39,8 @@ namespace TataApp
             {
                 MainPage = new LoginPage();
             }
-        }
+        } 
+        #endregion
 
         #region Methods
         protected override void OnStart()

@@ -9,6 +9,7 @@ namespace TataApp.ViewModels
         public ObservableCollection<MenuItemViewModel> Menu { get; set; }
         public Employee Employee { get; set; }
         public LoginViewModel Login { get; set; }
+        public TimesViewModel Times { get; set; }
         #endregion
 
         #region Constructors
@@ -44,7 +45,7 @@ namespace TataApp.ViewModels
             {
                 Title = "Regiter Time",
                 Icon = "ic_access_alarms.png",
-                PageName = "RegisterTimePage",
+                PageName = "TimesPage",
             });
 
             Menu.Add(new MenuItemViewModel
