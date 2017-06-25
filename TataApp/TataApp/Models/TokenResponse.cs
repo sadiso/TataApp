@@ -1,8 +1,7 @@
-﻿using Newtonsoft.Json;
-using System;
-
-namespace TataApp.Models
+﻿namespace TataApp.Models
 {
+    using Newtonsoft.Json;
+    using System;
     public class TokenResponse
     {
         [JsonProperty(PropertyName = "access_token")]

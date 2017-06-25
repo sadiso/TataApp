@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace TataApp.Models
+﻿namespace TataApp.Models
 {
+    using System;
     public class Time
     {
         public int TimeId { get; set; }

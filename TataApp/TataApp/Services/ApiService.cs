@@ -1,17 +1,47 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Text;
-using System.Threading.Tasks;
-using TataApp.Models;
-
-namespace TataApp.Services
+﻿namespace TataApp.Services
 {
+    using Newtonsoft.Json;
+    using Plugin.Connectivity;
+    using System;
+    using System.Collections.Generic;
+    using System.Net.Http;
+    using System.Net.Http.Headers;
+    using System.Text;
+    using System.Threading.Tasks;
+    using TataApp.Models;
     public class ApiService
     {
-        public async Task<TokenResponse> GetToken(string urlBase, string username, string password)
+        public async Task<Response> CheckConnection()
+        {
+            if (!CrossConnectivity.Current.IsConnected)
+            {
+                return new Response
+                {
+                    IsSuccess = false,
+                    Message = "Please turn on your internet.",
+                };
+            }
+
+            var isReachable = await CrossConnectivity.Current.IsRemoteReachable("google.com");
+            if (!isReachable)
+            {
+                return new Response
+                {
+                    IsSuccess = false,
+                    Message = "Check you internet connection.",
+                };
+            }
+
+            return new Response
+            {
+                IsSuccess = true,
+                Message = "Ok",
+            };
+        }
+        public async Task<TokenResponse> GetToken(
+            string urlBase, 
+            string username, 
+            string password)
         {
             try
             {
@@ -31,8 +61,13 @@ namespace TataApp.Services
             }
         }
 
-        public async Task<Response> GetEmployeeByEmailOrCode(string urlBase, string servicePrefix,
-            string controller, string tokenType, string accessToken, string emailOrCode)
+        public async Task<Response> GetEmployeeByEmailOrCode(
+            string urlBase, 
+            string servicePrefix,
+            string controller, 
+            string tokenType, 
+            string accessToken, 
+            string emailOrCode)
         {
             try
             {
@@ -75,8 +110,13 @@ namespace TataApp.Services
             }
         }
 
-        public async Task<Response> Get<T>(string urlBase, string servicePrefix, string controller,
-            string tokenType, string accessToken, int id)
+        public async Task<Response> Get<T>(
+            string urlBase, 
+            string servicePrefix, 
+            string controller,
+            string tokenType, 
+            string accessToken, 
+            int id)
         {
             try
             {
@@ -114,8 +154,12 @@ namespace TataApp.Services
             }
         }
 
-        public async Task<Response> GetList<T>(string urlBase, string servicePrefix, string controller,
-            string tokenType, string accessToken)
+        public async Task<Response> GetList<T>(
+            string urlBase, 
+            string servicePrefix, 
+            string controller,
+            string tokenType, 
+            string accessToken)
         {
             try
             {
@@ -153,8 +197,12 @@ namespace TataApp.Services
             }
         }
         public async Task<Response> GetList<T>(
-            string urlBase, string servicePrefix, string controller,
-            string tokenType, string accessToken, int id)
+            string urlBase, 
+            string servicePrefix, 
+            string controller,
+            string tokenType, 
+            string accessToken, 
+            int id)
         {
             try
             {
@@ -191,8 +239,13 @@ namespace TataApp.Services
                 };
             }
         }
-        public async Task<Response> Post<T>(string urlBase, string servicePrefix, string controller,
-            string tokenType, string accessToken, T model)
+        public async Task<Response> Post<T>(
+            string urlBase, 
+            string servicePrefix, 
+            string controller,
+            string tokenType, 
+            string accessToken, 
+            T model)
         {
             try
             {
@@ -233,7 +286,11 @@ namespace TataApp.Services
             }
         }
 
-        public async Task<Response> Post<T>(string urlBase, string servicePrefix, string controller, T model)
+        public async Task<Response> Post<T>(
+            string urlBase, 
+            string servicePrefix, 
+            string controller, 
+            T model)
         {
             try
             {
@@ -273,8 +330,13 @@ namespace TataApp.Services
             }
         }
 
-        public async Task<Response> Put<T>(string urlBase, string servicePrefix, string controller,
-            string tokenType, string accessToken, T model)
+        public async Task<Response> Put<T>(
+            string urlBase, 
+            string servicePrefix, 
+            string controller,
+            string tokenType, 
+            string accessToken, 
+            T model)
         {
             try
             {
@@ -315,8 +377,13 @@ namespace TataApp.Services
             }
         }
 
-        public async Task<Response> Delete<T>(string urlBase, string servicePrefix, string controller,
-            string tokenType, string accessToken, T model)
+        public async Task<Response> Delete<T>(
+            string urlBase, 
+            string servicePrefix, 
+            string controller,
+            string tokenType, 
+            string accessToken, 
+            T model)
         {
             try
             {

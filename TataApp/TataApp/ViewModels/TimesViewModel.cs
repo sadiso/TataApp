@@ -1,18 +1,16 @@
-﻿using GalaSoft.MvvmLight.Command;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
-using TataApp.Models;
-using TataApp.Services;
-using Xamarin.Forms;
-
-namespace TataApp.ViewModels
+﻿namespace TataApp.ViewModels
 {
+    using GalaSoft.MvvmLight.Command;
+    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
+    using System.ComponentModel;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using System.Windows.Input;
+    using Models;
+    using Services;
+    using Xamarin.Forms;
+
     public class TimesViewModel : INotifyPropertyChanged
     {
         #region Events
@@ -106,6 +104,15 @@ namespace TataApp.ViewModels
         private async Task LoadTimes()
         {
             IsRefreshing = true;
+
+            var checkConnetion = await apiService.CheckConnection();
+            if (!checkConnetion.IsSuccess)
+            {
+                IsRefreshing = false;
+                await dialogService.ShowMessage("Error", checkConnetion.Message);
+                return;
+            }
+
             var urlAPI = Application.Current.Resources["URLAPI"].ToString();
             var mainViewModel = MainViewModel.GetInstance();
             var employee = mainViewModel.Employee;
@@ -132,7 +139,9 @@ namespace TataApp.ViewModels
         private void ReloadTimes()
         {
             MyTimes.Clear();
-            foreach (var time in times)
+            foreach (var time in times.
+                                 OrderByDescending(t => t.DateReported).
+                                 ThenBy(t => t.From))
             {
                 MyTimes.Add(new TimeItemViewModel
                 {
@@ -167,7 +176,9 @@ namespace TataApp.ViewModels
             MyTimes.Clear();
             foreach (var time in times
                      .Where(t => t.Project.Description.ToLower().Contains(Filter.ToLower()) ||
-                                 t.Activity.Description.ToLower().Contains(Filter.ToLower())))
+                                 t.Activity.Description.ToLower().Contains(Filter.ToLower()))
+                     .OrderByDescending(t => t.DateReported)
+                     .ThenBy(t => t.From))
             {
                 MyTimes.Add(new TimeItemViewModel
                 {

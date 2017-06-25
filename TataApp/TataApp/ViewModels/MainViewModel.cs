@@ -1,15 +1,22 @@
-﻿using System.Collections.ObjectModel;
-using TataApp.Models;
-
-namespace TataApp.ViewModels
+﻿namespace TataApp.ViewModels
 {
+    using GalaSoft.MvvmLight.Command;
+    using System.Collections.ObjectModel;
+    using System.Windows.Input;
+    using Models;
+    using Services;
     public class MainViewModel
     {
+        #region Attributes
+        NavigationService navigationService;
+        #endregion
+
         #region Propierties
         public ObservableCollection<MenuItemViewModel> Menu { get; set; }
         public Employee Employee { get; set; }
         public LoginViewModel Login { get; set; }
         public TimesViewModel Times { get; set; }
+        public NewTimeViewModel NewTime { get; set; }
         #endregion
 
         #region Constructors
@@ -17,6 +24,7 @@ namespace TataApp.ViewModels
         {
             instance = this;
             Menu = new ObservableCollection<MenuItemViewModel>();
+            navigationService = new NavigationService();
             Login = new LoginViewModel();
             LoadMenu();
         }
@@ -68,7 +76,20 @@ namespace TataApp.ViewModels
                 Icon = "ic_close.png",
                 PageName = "LoginPage",
             });
-        } 
+        }
+        #endregion
+
+        #region Commands
+        public ICommand NewTimeCommand
+        {
+            get { return new RelayCommand(GoNewTime); }
+        }
+
+        async void GoNewTime()
+        {
+            NewTime = new NewTimeViewModel();
+            await navigationService.Navigate("NewTimePage");
+        }
         #endregion
     }
 }

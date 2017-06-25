@@ -1,7 +1,6 @@
-﻿using SQLite.Net.Interop;
-
-namespace TataApp.Interfaces
+﻿namespace TataApp.Interfaces
 {
+    using SQLite.Net.Interop;
     public interface IConfig
     {
         string DirectoryDB { get; }

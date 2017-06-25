@@ -1,9 +1,9 @@
-﻿using GalaSoft.MvvmLight.Command;
-using System.Windows.Input;
-using TataApp.Services;
-
-namespace TataApp.ViewModels
+﻿namespace TataApp.ViewModels
 {
+    using GalaSoft.MvvmLight.Command;
+    using System.Windows.Input;
+    using TataApp.Services;
+
     public class MenuItemViewModel
     {
         #region Attributes

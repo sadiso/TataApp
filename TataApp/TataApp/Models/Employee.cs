@@ -1,9 +1,8 @@
-﻿using SQLite.Net.Attributes;
-using System;
-using Xamarin.Forms;
-
-namespace TataApp.Models
+﻿namespace TataApp.Models
 {
+    using SQLite.Net.Attributes;
+    using System;
+    using Xamarin.Forms;
     public class Employee
     {
         [PrimaryKey]

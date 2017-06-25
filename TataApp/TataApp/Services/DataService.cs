@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using TataApp.Data;
-
-namespace TataApp.Services
+﻿namespace TataApp.Services
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using TataApp.Data;
     public class DataService
     {
         public T DeleteAllAndInsert<T>(T model) where T : class

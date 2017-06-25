@@ -1,7 +1,6 @@
-﻿using System.Threading.Tasks;
-
-namespace TataApp.Services
+﻿namespace TataApp.Services
 {
+    using System.Threading.Tasks;
     public class DialogService
     {
         public async Task ShowMessage(string title, string message)

@@ -1,0 +1,185 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TataApp.Views.NewTimeRepeatsPage"
+             Title="Repeats"
+             Icon="ic_action_repeat.png"
+             BackgroundColor="{StaticResource BackgroundColor}"
+             BindingContext="{Binding Main, Source={StaticResource Locator}}">
+    <ContentPage.Content>
+        <ScrollView
+            BindingContext="{Binding NewTime}">
+            <StackLayout
+                Padding="8">
+                <Grid>
+                    <Grid Grid.Row="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="90"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="90"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Label
+                            Grid.Column="0"
+                            Text="Repeats"
+                            HorizontalOptions="Start"
+                            VerticalOptions="Center"
+                            TextColor="{StaticResource FontColor}">
+                        </Label>
+                        <Switch
+                            Grid.Column="1"
+                            IsToggled="{Binding IsRepeated}">
+                        </Switch>
+                    </Grid>
+                </Grid>
+                <Grid>
+                    <Grid Grid.Row="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="90"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="90"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Label
+                            Grid.Column="0"
+                            Text="Monday"
+                            HorizontalOptions="Start"
+                            VerticalOptions="Center"
+                            TextColor="{StaticResource FontColor}">
+                        </Label>
+                        <Switch
+                            Grid.Column="1"
+                            IsToggled="{Binding IsRepeatMonday}">
+                        </Switch>
+                        <Label
+                            Grid.Column="2"
+                            Text="Tuesday"
+                            HorizontalOptions="Start"
+                            VerticalOptions="Center"
+                            TextColor="{StaticResource FontColor}">
+                        </Label>
+                        <Switch
+                            Grid.Column="3"
+                            IsToggled="{Binding IsRepeatTuesday}">
+                        </Switch>
+                    </Grid>
+                    <Grid Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="90"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="90"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Label
+                            Grid.Column="0"
+                            Text="Wednesday"
+                            HorizontalOptions="Start"
+                            VerticalOptions="Center"
+                            TextColor="{StaticResource FontColor}">
+                        </Label>
+                        <Switch
+                            Grid.Column="1"
+                            IsToggled="{Binding IsRepeatWednesday}">
+                        </Switch>
+                        <Label
+                            Grid.Column="2"
+                            Text="Thursday"
+                            HorizontalOptions="Start"
+                            VerticalOptions="Center"
+                            TextColor="{StaticResource FontColor}">
+                        </Label>
+                        <Switch
+                            Grid.Column="3"
+                            IsToggled="{Binding IsRepeatThursday}">
+                        </Switch>
+                    </Grid>
+                    <Grid Grid.Row="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="90"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="90"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Label
+                            Grid.Column="0"
+                            Text="Friday"
+                            HorizontalOptions="Start"
+                            VerticalOptions="Center"
+                            TextColor="{StaticResource FontColor}">
+                        </Label>
+                        <Switch
+                            Grid.Column="1"
+                            IsToggled="{Binding IsRepeatFriday}">
+                        </Switch>
+                        <Label
+                            Grid.Column="2"
+                            Text="Saturday"
+                            HorizontalOptions="Start"
+                            VerticalOptions="Center"
+                            TextColor="{StaticResource FontColor}">
+                        </Label>
+                        <Switch
+                            Grid.Column="3"
+                            IsToggled="{Binding IsRepeatSaturday}">
+                        </Switch>
+                    </Grid>
+                    <Grid Grid.Row="3">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="90"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="90"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Label
+                            Grid.Column="0"
+                            Text="Sunday"
+                            HorizontalOptions="Start"
+                            VerticalOptions="Center"
+                            TextColor="{StaticResource FontColor}">
+                        </Label>
+                        <Switch
+                            Grid.Column="1"
+                            IsToggled="{Binding IsRepeatSunday}">
+                        </Switch>
+                    </Grid>
+                </Grid>
+                <Grid>
+                    <Grid Grid.Row="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="80"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Label
+                            Grid.Column="0"
+                            Text="Until"
+                            HorizontalOptions="Start"
+                            VerticalOptions="Center"
+                            TextColor="{StaticResource FontColor}">
+                        </Label>
+                        <DatePicker
+                            Date="{Binding Until, Mode=TwoWay}"
+                            BackgroundColor="White"
+                            Grid.Column="1"
+                            TextColor="{StaticResource FontColor}">
+                        </DatePicker>
+                    </Grid>
+                </Grid>
+                <ActivityIndicator
+                    VerticalOptions="CenterAndExpand"
+                    IsRunning="{Binding IsRunning}">
+                </ActivityIndicator>
+                <Button
+                    Command="{Binding SaveCommand}"
+                    IsEnabled="{Binding IsEnabled}"
+                    VerticalOptions="End"
+                    HorizontalOptions="FillAndExpand"
+                    BackgroundColor="{StaticResource MainColor}"
+                    TextColor="{StaticResource BackgroundColor}"
+                    HeightRequest="40"
+                    BorderRadius="20"
+                    Text="Save">
+                </Button>
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

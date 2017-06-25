@@ -1,5 +1,4 @@
-﻿
-namespace TataApp.Models
+﻿namespace TataApp.Models
 {
     public class Response
     {

@@ -1,12 +1,11 @@
-﻿using GalaSoft.MvvmLight.Command;
-using System.ComponentModel;
-using System.Windows.Input;
-using TataApp.Models;
-using TataApp.Services;
-using Xamarin.Forms;
-
-namespace TataApp.ViewModels
+﻿namespace TataApp.ViewModels
 {
+    using GalaSoft.MvvmLight.Command;
+    using System.ComponentModel;
+    using System.Windows.Input;
+    using TataApp.Models;
+    using TataApp.Services;
+    using Xamarin.Forms;
     public class LoginViewModel : INotifyPropertyChanged
     {
         #region Events
@@ -146,8 +145,21 @@ namespace TataApp.ViewModels
             IsRunning = true;
             IsEnabled = false;
 
+            var checkConnetion = await apiService.CheckConnection();
+            if (!checkConnetion.IsSuccess)
+            {
+                IsRunning = false;
+                IsEnabled = true;
+                await dialogService.ShowMessage("Error", checkConnetion.Message);
+                return;
+            }
+
             var urlAPI = Application.Current.Resources["URLAPI"].ToString();
-            var token = await apiService.GetToken(urlAPI, Email, Password);
+
+            var token = await apiService.GetToken(
+                urlAPI, 
+                Email, 
+                Password);
 
             if (token == null)
             {

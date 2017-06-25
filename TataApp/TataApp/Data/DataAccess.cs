@@ -1,14 +1,13 @@
-﻿using SQLite.Net;
-using SQLiteNetExtensions.Extensions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using TataApp.Interfaces;
-using TataApp.Models;
-using Xamarin.Forms;
-
-namespace TataApp.Data
+﻿namespace TataApp.Data
 {
+    using SQLite.Net;
+    using SQLiteNetExtensions.Extensions;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using TataApp.Interfaces;
+    using TataApp.Models;
+    using Xamarin.Forms;
     public class DataAccess : IDisposable
     {
         private SQLiteConnection connection;
