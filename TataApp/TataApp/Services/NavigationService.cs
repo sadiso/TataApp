@@ -1,7 +1,7 @@
 ﻿namespace TataApp.Services
 {
     using System.Threading.Tasks;
-    using TataApp.Views;
+    using Views;
     public class NavigationService
     {
         public void SetMainPage(string pageName)
@@ -31,9 +31,17 @@
                 case "NewTimePage":
                     await App.Navigator.PushAsync(new NewTimePage());
                     break;
+                case "LocationsPage":
+                    await App.Navigator.PushAsync(new LocationsPage());
+                    break;
                 default:
                     break;
             }
+        }
+
+        public async Task Back()
+        {
+            await App.Navigator.PopAsync();
         }
     }
 }

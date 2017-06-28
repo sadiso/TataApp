@@ -17,6 +17,7 @@
         public LoginViewModel Login { get; set; }
         public TimesViewModel Times { get; set; }
         public NewTimeViewModel NewTime { get; set; }
+        public LocationsViewModel Locations { get; set; }
         #endregion
 
         #region Constructors
@@ -67,7 +68,7 @@
             {
                 Title = "Localizate Employees",
                 Icon = "ic_location_on.png",
-                PageName = "LocalizatePage",
+                PageName = "LocationsPage",
             });
 
             Menu.Add(new MenuItemViewModel

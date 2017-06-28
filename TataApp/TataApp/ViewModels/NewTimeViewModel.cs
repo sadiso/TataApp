@@ -7,6 +7,10 @@
     using Models;
     using Services;
     using Xamarin.Forms;
+    using System.Linq;
+    using System.Windows.Input;
+    using GalaSoft.MvvmLight.Command;
+
     public class NewTimeViewModel : Time, INotifyPropertyChanged
     {
         #region Events
@@ -17,6 +21,7 @@
         ApiService apiService;
         DialogService dialogService;
         NavigationService navigationService;
+        GeolocatorService geolocatorService;
         bool isRunning;
         bool isEnabled;
         bool isRepeated;
@@ -27,6 +32,8 @@
         bool isRepeatFriday;
         bool isRepeatSaturday;
         bool isRepeatSunday;
+        public List<Project> projects;
+        public List<Activity> activities;
         #endregion
 
         #region Properties
@@ -256,9 +263,12 @@
         #region Constructor
         public NewTimeViewModel()
         {
+            instance = this;
+
             apiService = new ApiService();
             dialogService = new DialogService();
             navigationService = new NavigationService();
+            geolocatorService = new GeolocatorService();
 
             IsEnabled = true;
             Until = DateTime.Today;
@@ -268,6 +278,20 @@
             Activities = new ObservableCollection<ActivityItemViewModel>();
 
             LoadPickers();
+        }
+        #endregion
+
+        #region Singleton
+        private static NewTimeViewModel instance;
+
+        public static NewTimeViewModel GetInstance()
+        {
+            if (instance == null)
+            {
+                instance = new NewTimeViewModel();
+            }
+
+            return instance;
         }
         #endregion
 
@@ -290,38 +314,40 @@
             var mainViewModel = MainViewModel.GetInstance();
             var employee = mainViewModel.Employee;
 
-            var projects = await apiService.GetList<Project>(
+            var projectsResponse = await apiService.GetList<Project>(
                 urlAPI,
                 "/api",
                 "/Projects",
                 employee.TokenType,
                 employee.AccessToken);
 
-            if (projects.IsSuccess)
+            if (projectsResponse.IsSuccess)
             {
-                ReloadProjects((List<Project>)projects.Result);
+                projects = (List<Project>)projectsResponse.Result;
+                ReloadProjects();
             }
 
-            var activities = await apiService.GetList<Activity>(
+            var activitiesResponse = await apiService.GetList<Activity>(
                 urlAPI,
                 "/api",
                 "/Activities",
                 employee.TokenType,
                 employee.AccessToken);
 
-            if (activities.IsSuccess)
+            if (activitiesResponse.IsSuccess)
             {
-                ReloadActivities((List<Activity>)activities.Result);
+                activities = (List<Activity>)activitiesResponse.Result;
+                ReloadActivities();
             }
 
             IsEnabled = true;
             IsRunning = false;
         }
 
-        private void ReloadProjects(List<Project> projects)
+        public void ReloadProjects()
         {
             Projects.Clear();
-            foreach (var project in projects)
+            foreach (var project in projects.OrderBy(p => p.Description))
             {
                 Projects.Add(new ProjectItemViewModel
                 {
@@ -331,10 +357,10 @@
             }
         }
 
-        private void ReloadActivities(List<Activity> activities)
+        public void ReloadActivities()
         {
             Activities.Clear();
-            foreach (var activity in activities)
+            foreach (var activity in activities.OrderBy(a => a.Description))
             {
                 Activities.Add(new ActivityItemViewModel
                 {
@@ -353,6 +379,124 @@
             IsRepeatFriday = false;
             IsRepeatSaturday = false;
             IsRepeatSunday = false;
+        }
+        private void ConvertHours()
+        {
+            int posTo = ToString.IndexOf(':');
+            int posFrom = FromString.IndexOf(':');
+            int toHour = 0, toMinute = 0, fromHour = 0, fromMinute = 0;
+
+            if (posTo == -1)
+            {
+                int.TryParse(ToString, out toHour);
+            }
+            else
+            {
+                int.TryParse(ToString.Substring(0, posTo), out toHour);
+                int.TryParse(ToString.Substring(posTo + 1), out toMinute);
+            }
+
+            if (posFrom == -1)
+            {
+                int.TryParse(FromString, out fromHour);
+            }
+            else
+            {
+                int.TryParse(FromString.Substring(0, posFrom), out fromHour);
+                int.TryParse(FromString.Substring(posFrom + 1), out fromMinute);
+            }
+
+            To = new DateTime(1900, 1, 1, toHour, toMinute, 0);
+            From = new DateTime(1900, 1, 1, fromHour, fromMinute, 0);
+        }
+        #endregion
+
+        #region Commands
+        public ICommand SaveCommand
+        {
+            get { return new RelayCommand(Save); }
+        }
+
+        async void Save()
+        {
+            if (ProjectId == 0)
+            {
+                await dialogService.ShowMessage("Error", "You must select a project.");
+                return;
+            }
+
+            if (ActivityId == 0)
+            {
+                await dialogService.ShowMessage("Error", "You must select an activity.");
+                return;
+            }
+
+            ConvertHours();
+
+            if (To <= From)
+            {
+                await dialogService.ShowMessage("Error", "The hour 'To' must be greather hour 'From'.");
+                return;
+            }
+
+            IsEnabled = false;
+            IsRunning = true;
+
+            var checkConnetion = await apiService.CheckConnection();
+            if (!checkConnetion.IsSuccess)
+            {
+                IsRunning = false;
+                IsEnabled = true;
+                await dialogService.ShowMessage("Error", checkConnetion.Message);
+                return;
+            }
+
+            var urlAPI = Application.Current.Resources["URLAPI"].ToString();
+            var mainViewModel = MainViewModel.GetInstance();
+            var employee = mainViewModel.Employee;
+
+            await geolocatorService.GetLocation();
+
+            var newTimeRequest = new NewTimeRequest
+            {
+                ActivityId = ActivityId,
+                DateReported = DateReported,
+                EmployeeId = employee.EmployeeId,
+                From = From,
+                Latitude = geolocatorService.Latitude,
+                Longitude = geolocatorService.Longitude,
+                IsRepeated = IsRepeated,
+                IsRepeatFriday = IsRepeatFriday,
+                IsRepeatMonday = IsRepeatMonday,
+                IsRepeatSaturday = IsRepeatSaturday,
+                IsRepeatSunday = IsRepeatSunday,
+                IsRepeatThursday = IsRepeatThursday,
+                IsRepeatTuesday = IsRepeatTuesday,
+                IsRepeatWednesday = IsRepeatWednesday,
+                ProjectId = ProjectId,
+                Remarks = Remarks,
+                To = To,
+                Until = Until,
+            };
+
+            var response = await apiService.Post(
+                urlAPI,
+                "/api",
+                "/Times",
+                employee.TokenType,
+                employee.AccessToken,
+                newTimeRequest);
+
+            IsEnabled = true;
+            IsRunning = false;
+
+            if (!response.IsSuccess)
+            {
+                await dialogService.ShowMessage("Error", response.Message);
+                return;
+            }
+
+            await navigationService.Back();
         }
         #endregion
     }
