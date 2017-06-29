@@ -123,6 +123,15 @@
         #endregion
 
         #region Commands
+        public ICommand LoginFacebookCommand
+        {
+            get { return new RelayCommand(LoginFacebook); }
+        }
+
+        void LoginFacebook()
+        {
+            navigationService.SetMainPage("LoginFacebookPage");
+        }
         public ICommand LoginCommand
         {
             get { return new RelayCommand(Login); }

@@ -14,6 +14,9 @@
                 case "LoginPage":
                     App.Current.MainPage = new LoginPage();
                     break;
+                case "LoginFacebookPage":
+                    App.Current.MainPage = new LoginFacebookPage();
+                    break;
                 default:
                     break;
             }

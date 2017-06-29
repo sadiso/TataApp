@@ -22,7 +22,7 @@
                 </maps:Map>
             </StackLayout>
             <!-- New Pin modal -->
-            <!--            <ContentView 
+            <ContentView 
                 x:Name="NewPinModal" 
                 AbsoluteLayout.LayoutBounds="0, 0, 1, 1" 
                 AbsoluteLayout.LayoutFlags="All" 
@@ -85,12 +85,11 @@
                     </StackLayout>
                 </StackLayout>
             </ContentView>
--->
         </AbsoluteLayout>
     </ContentPage.Content>
-    <!--    <ContentPage.ToolbarItems>
+    <ContentPage.ToolbarItems>
         <ToolbarItem 
             Icon="ic_action_add_location.png"
             Clicked="NewPinClicked"/>
-    </ContentPage.ToolbarItems>   -->
+    </ContentPage.ToolbarItems>
 </ContentPage>

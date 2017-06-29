@@ -18,7 +18,6 @@
                 var location = await locator.GetPositionAsync(timeoutMilliseconds: 30000);
                 Latitude = location.Latitude;
                 Longitude = location.Longitude;
-
             }
             catch (Exception ex)
             {

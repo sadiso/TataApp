@@ -45,6 +45,8 @@
     <Compile Include="Models\Activity.cs" />
     <Compile Include="Models\Employee.cs" />
     <Compile Include="Models\EmployeeRequest.cs" />
+    <Compile Include="Models\FacebookResponse.cs" />
+    <Compile Include="Models\Location.cs" />
     <Compile Include="Models\NewTimeRequest.cs" />
     <Compile Include="Models\Project.cs" />
     <Compile Include="Models\Response.cs" />
@@ -70,6 +72,9 @@
     </Compile>
     <Compile Include="Views\LocationsPage.xaml.cs">
       <DependentUpon>LocationsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LoginFacebookPage.xaml.cs">
+      <DependentUpon>LoginFacebookPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\LoginPage.xaml.cs">
       <DependentUpon>LoginPage.xaml</DependentUpon>
@@ -231,6 +236,12 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Views\LocationsPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Views\LoginFacebookPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>
