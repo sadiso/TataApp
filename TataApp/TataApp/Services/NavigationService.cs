@@ -37,6 +37,12 @@
                 case "LocationsPage":
                     await App.Navigator.PushAsync(new LocationsPage());
                     break;
+                case "EmployeesPage":
+                    await App.Navigator.PushAsync(new EmployeesPage());
+                    break;
+                case "EmployeeDetailPage":
+                    await App.Navigator.PushAsync(new EmployeeDetailPage());
+                    break;
                 default:
                     break;
             }

@@ -59,6 +59,9 @@
     <Compile Include="Services\GeolocatorService.cs" />
     <Compile Include="Services\NavigationService.cs" />
     <Compile Include="ViewModels\ActivityItemViewModel.cs" />
+    <Compile Include="ViewModels\EmployeeDetailViewModel.cs" />
+    <Compile Include="ViewModels\EmployeeItemViewModel.cs" />
+    <Compile Include="ViewModels\EmployeesViewModel.cs" />
     <Compile Include="ViewModels\LocationsViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
@@ -67,6 +70,12 @@
     <Compile Include="ViewModels\ProjectItemViewModel.cs" />
     <Compile Include="ViewModels\TimeItemViewModel.cs" />
     <Compile Include="ViewModels\TimesViewModel.cs" />
+    <Compile Include="Views\EmployeeDetailPage.xaml.cs">
+      <DependentUpon>EmployeeDetailPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\EmployeesPage.xaml.cs">
+      <DependentUpon>EmployeesPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\HomePage.xaml.cs">
       <DependentUpon>HomePage.xaml</DependentUpon>
     </Compile>
@@ -242,6 +251,18 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Views\LoginFacebookPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Views\EmployeesPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Views\EmployeeDetailPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>

@@ -18,6 +18,8 @@
         public TimesViewModel Times { get; set; }
         public NewTimeViewModel NewTime { get; set; }
         public LocationsViewModel Locations { get; set; }
+        public EmployeesViewModel Employees { get; set; }
+        public EmployeeDetailViewModel EmployeeDetail { get; set; }
         #endregion
 
         #region Constructors
@@ -59,9 +61,9 @@
 
             Menu.Add(new MenuItemViewModel
             {
-                Title = "Sickleaves",
-                Icon = "ic_sentiment_dissatisfied.png",
-                PageName = "SickleavesPage",
+                Title = "Employees",
+                Icon = "ic_stat_person_pin.png",
+                PageName = "EmployeesPage",
             });
 
             Menu.Add(new MenuItemViewModel
