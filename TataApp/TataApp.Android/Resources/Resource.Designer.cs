@@ -26,6 +26,7 @@ namespace TataApp.Droid
 		
 		public static void UpdateIdValues()
 		{
+			global::Gcm.Client.Resource.String.library_name = global::TataApp.Droid.Resource.String.library_name;
 			global::SQLite.Net.Platform.XamarinAndroid.Resource.String.ApplicationName = global::TataApp.Droid.Resource.String.ApplicationName;
 			global::SQLite.Net.Platform.XamarinAndroid.Resource.String.Hello = global::TataApp.Droid.Resource.String.Hello;
 			global::Xamarin.Forms.Platform.Android.Resource.Attribute.actionBarSize = global::TataApp.Droid.Resource.Attribute.actionBarSize;
@@ -3281,11 +3282,11 @@ namespace TataApp.Droid
 		public partial class String
 		{
 			
-			// aapt resource value: 0x7f060046
-			public const int ApplicationName = 2131099718;
+			// aapt resource value: 0x7f060047
+			public const int ApplicationName = 2131099719;
 			
-			// aapt resource value: 0x7f060045
-			public const int Hello = 2131099717;
+			// aapt resource value: 0x7f060046
+			public const int Hello = 2131099718;
 			
 			// aapt resource value: 0x7f06002e
 			public const int abc_action_bar_home_description = 2131099694;
@@ -3343,6 +3344,9 @@ namespace TataApp.Droid
 			
 			// aapt resource value: 0x7f060040
 			public const int abc_toolbar_collapse_description = 2131099712;
+			
+			// aapt resource value: 0x7f060045
+			public const int app_name = 2131099717;
 			
 			// aapt resource value: 0x7f060042
 			public const int appbar_scrolling_view_behavior = 2131099714;
@@ -3445,6 +3449,9 @@ namespace TataApp.Droid
 			
 			// aapt resource value: 0x7f06001e
 			public const int common_signin_button_text_long = 2131099678;
+			
+			// aapt resource value: 0x7f060048
+			public const int library_name = 2131099720;
 			
 			// aapt resource value: 0x7f06001f
 			public const int mr_button_content_description = 2131099679;

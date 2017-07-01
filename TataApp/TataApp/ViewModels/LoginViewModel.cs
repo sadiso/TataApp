@@ -217,6 +217,7 @@
 
             var mainViewModel = MainViewModel.GetInstance();
             mainViewModel.Employee = employee;
+            mainViewModel.RegisterDevice();
             navigationService.SetMainPage("MasterPage");
         }
         #endregion

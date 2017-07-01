@@ -5,6 +5,9 @@
     using System.Windows.Input;
     using Models;
     using Services;
+    using Xamarin.Forms;
+    using Interfaces;
+
     public class MainViewModel
     {
         #region Attributes
@@ -48,6 +51,11 @@
         #endregion
 
         #region Methods
+        public void RegisterDevice()
+        {
+            var register = DependencyService.Get<IRegisterDevice>();
+            register.RegisterDevice();
+        }
         private void LoadMenu()
         {
             Menu = new ObservableCollection<MenuItemViewModel>();

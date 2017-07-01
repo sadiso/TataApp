@@ -2,10 +2,10 @@
 {
     using System;
     using System.Threading.Tasks;
-    using TataApp.Models;
-    using TataApp.Services;
-    using TataApp.ViewModels;
-    using TataApp.Views;
+    using Models;
+    using Services;
+    using ViewModels;
+    using Views;
     using Xamarin.Forms;
     public partial class App : Application
     {
@@ -33,6 +33,7 @@
             {
                 var mainViewModel = MainViewModel.GetInstance();
                 mainViewModel.Employee = employee;
+                mainViewModel.RegisterDevice();
                 MainPage = new MasterPage();
             }
             else
@@ -101,6 +102,7 @@
 
             var mainViewModel = MainViewModel.GetInstance();
             mainViewModel.Employee = employee;
+            mainViewModel.RegisterDevice();
             navigationService.SetMainPage("MasterPage");
         }
         protected override void OnStart()
