@@ -26,7 +26,7 @@
                 Text="{Binding Employee.FullName}">
             </Label>
             <controls:CircleImage 
-                Source="{Binding Employee.FullPicture}" 
+                Source="{Binding Employee.FullPicture}"
                 Aspect="AspectFill"
                 WidthRequest="250"
                 HeightRequest="250">

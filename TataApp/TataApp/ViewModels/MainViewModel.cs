@@ -23,6 +23,7 @@
         public LocationsViewModel Locations { get; set; }
         public EmployeesViewModel Employees { get; set; }
         public EmployeeDetailViewModel EmployeeDetail { get; set; }
+        public ProfileViewModel Profile { get; set; }
         #endregion
 
         #region Constructors
@@ -79,6 +80,13 @@
                 Title = "Localizate Employees",
                 Icon = "ic_location_on.png",
                 PageName = "LocationsPage",
+            });
+
+            Menu.Add(new MenuItemViewModel
+            {
+                Title = "My Profile",
+                Icon = "ic_profile.png",
+                PageName = "ProfilePage",
             });
 
             Menu.Add(new MenuItemViewModel

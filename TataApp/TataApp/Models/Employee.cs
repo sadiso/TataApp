@@ -54,8 +54,13 @@
                     return "avatar_user.png";
                 }
 
-                var urlBackend = Application.Current.Resources["URLAPI"].ToString();
-                return string.Format("{0}{1}", urlBackend, Picture.Substring(1));
+                if (LoginTypeId == 1)
+                {
+                    var urlAPI = Application.Current.Resources["URLAPI"].ToString();
+                    return string.Format("{0}/{1}", urlAPI, Picture.Substring(1));
+                }
+
+                return Picture;
             }
         }
 

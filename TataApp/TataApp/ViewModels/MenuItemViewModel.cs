@@ -50,6 +50,9 @@
                     case "EmployeesPage":
                         mainViewModel.Employees = new EmployeesViewModel();
                         break;
+                    case "ProfilePage":
+                        mainViewModel.Profile = new ProfileViewModel(mainViewModel.Employee);
+                        break;
                     default:
                         break;
                 }
