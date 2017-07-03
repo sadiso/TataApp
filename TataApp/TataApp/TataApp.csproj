@@ -45,6 +45,7 @@
     <Compile Include="Interfaces\IConfig.cs" />
     <Compile Include="Interfaces\IRegisterDevice.cs" />
     <Compile Include="Models\Activity.cs" />
+    <Compile Include="Models\ChangePasswordRequest.cs" />
     <Compile Include="Models\DocumentType.cs" />
     <Compile Include="Models\Employee.cs" />
     <Compile Include="Models\EmployeeRequest.cs" />

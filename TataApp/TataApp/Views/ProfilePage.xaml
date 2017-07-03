@@ -8,225 +8,228 @@
              BackgroundColor="{StaticResource BackgroundColor}"
              BindingContext="{Binding Main, Source={StaticResource Locator}}">
     <ContentPage.Content>
-        <ScrollView
-            BindingContext="{Binding Profile}">
-            <StackLayout
-                Padding="8">
-                <Grid>
-                    <Grid Grid.Row="0">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="80"></ColumnDefinition>
-                            <ColumnDefinition Width="*"></ColumnDefinition>
-                        </Grid.ColumnDefinitions>
-                        <Label
-                            Grid.Column="0"
-                            Text="First name"
-                            HorizontalOptions="Start"
-                            VerticalOptions="Center"
-                            TextColor="{StaticResource FontColor}">
-                        </Label>
-                        <Entry
-                            Grid.Column="1"
-                            BackgroundColor="White"
-                            TextColor="{StaticResource FontColor}"
-                            Placeholder="First name"
-                            Text="{Binding FirstName, Mode=TwoWay}">
-                        </Entry>
-                    </Grid>
-                    <Grid Grid.Row="1">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="80"></ColumnDefinition>
-                            <ColumnDefinition Width="*"></ColumnDefinition>
-                        </Grid.ColumnDefinitions>
-                        <Label
-                            Grid.Column="0"
-                            Text="Last name"
-                            HorizontalOptions="Start"
-                            VerticalOptions="Center"
-                            TextColor="{StaticResource FontColor}">
-                        </Label>
-                        <Entry
-                            Grid.Column="1"
-                            BackgroundColor="White"
-                            TextColor="{StaticResource FontColor}"
-                            Placeholder="Last Name"
-                            Text="{Binding LastName, Mode=TwoWay}">
-                        </Entry>
-                    </Grid>
-                    <Grid Grid.Row="2">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="80"></ColumnDefinition>
-                            <ColumnDefinition Width="*"></ColumnDefinition>
-                        </Grid.ColumnDefinitions>
-                        <Label
-                            Grid.Column="0"
-                            Text="Employee code"
-                            HorizontalOptions="Start"
-                            VerticalOptions="Center"
-                            TextColor="{StaticResource FontColor}">
-                        </Label>
-                        <Entry
-                            Grid.Column="1"
-                            BackgroundColor="White"
-                            TextColor="{StaticResource FontColor}"
-                            Placeholder="Employee Id"
-                            Text="{Binding EmployeeCode, Mode=TwoWay}"
-                            Keyboard="Numeric">
-                        </Entry>
-                    </Grid>
-                    <Grid Grid.Row="3">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="80"></ColumnDefinition>
-                            <ColumnDefinition Width="*"></ColumnDefinition>
-                        </Grid.ColumnDefinitions>
-                        <Label
-                            Grid.Column="0"
-                            Text="Document type"
-                            HorizontalOptions="Start"
-                            VerticalOptions="Center"
-                            TextColor="{StaticResource FontColor}">
-                        </Label>
-                        <control:BindablePicker
-                             Grid.Column="1"
-                             HeightRequest="45"
-                             Title="Select a Document type" 
-                             DisplayMemberPath="Description" 
-                             SelectedValuePath="DocumentTypeId"
-                             TextColor="{StaticResource FontColor}"
-                             BackgroundColor="White"
-                             ItemsSource="{Binding DocumentTypes}"
-                             SelectedValue="{Binding Path=DocumentTypeId, Mode=TwoWay}"
-                             SelectedIndex="{Binding SourceIndex, Mode=TwoWay}"
-                             HorizontalOptions="FillAndExpand" 
-                             VerticalOptions="Center">
-                        </control:BindablePicker>
-                    </Grid>
-                    <Grid Grid.Row="4">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="80"></ColumnDefinition>
-                            <ColumnDefinition Width="*"></ColumnDefinition>
-                        </Grid.ColumnDefinitions>
-                        <Label
-                            Grid.Column="0"
-                            Text="Document"
-                            HorizontalOptions="Start"
-                            VerticalOptions="Center"
-                            TextColor="{StaticResource FontColor}">
-                        </Label>
-                        <Entry
-                            Grid.Column="1"
-                            BackgroundColor="White"
-                            TextColor="{StaticResource FontColor}"
-                            Placeholder="Document"
-                            Text="{Binding Document, Mode=TwoWay}"
-                            Keyboard="Numeric">
-                        </Entry>
-                    </Grid>
-                    <Grid Grid.Row="5">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="80"></ColumnDefinition>
-                            <ColumnDefinition Width="*"></ColumnDefinition>
-                        </Grid.ColumnDefinitions>
-                        <Label
-                            Grid.Column="0"
-                            Text="Email"
-                            HorizontalOptions="Start"
-                            VerticalOptions="Center"
-                            TextColor="{StaticResource FontColor}">
-                        </Label>
-                        <Entry
-                            Grid.Column="1"
-                            BackgroundColor="White"
-                            TextColor="{StaticResource FontColor}"
-                            Placeholder="Email"
-                            Text="{Binding Email, Mode=TwoWay}"
-                            Keyboard="Email">
-                        </Entry>
-                    </Grid>
-                    <Grid Grid.Row="6">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="80"></ColumnDefinition>
-                            <ColumnDefinition Width="*"></ColumnDefinition>
-                        </Grid.ColumnDefinitions>
-                        <Label
-                            Grid.Column="0"
-                            Text="Phone"
-                            HorizontalOptions="Start"
-                            VerticalOptions="Center"
-                            TextColor="{StaticResource FontColor}">
-                        </Label>
-                        <Entry
-                            Grid.Column="1"
-                            BackgroundColor="White"
-                            TextColor="{StaticResource FontColor}"
-                            Placeholder="Phone"
-                            Text="{Binding Phone, Mode=TwoWay}"
-                            Keyboard="Numeric">
-                        </Entry>
-                    </Grid>
-                    <Grid Grid.Row="7">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="80"></ColumnDefinition>
-                            <ColumnDefinition Width="*"></ColumnDefinition>
-                        </Grid.ColumnDefinitions>
-                        <Label
-                            Grid.Column="0"
-                            Text="Address"
-                            HorizontalOptions="Start"
-                            VerticalOptions="Center"
-                            TextColor="{StaticResource FontColor}">
-                        </Label>
-                        <Entry
-                            Grid.Column="1"
-                            BackgroundColor="White"
-                            TextColor="{StaticResource FontColor}"
-                            Placeholder="Address"
-                            Text="{Binding Address, Mode=TwoWay}">
-                        </Entry>
-                    </Grid>
-                </Grid>
+        <AbsoluteLayout>
+            <ScrollView
+                AbsoluteLayout.LayoutBounds="0, 0, 1, 1" 
+                AbsoluteLayout.LayoutFlags="All"
+                BindingContext="{Binding Profile}">
                 <StackLayout
-                     Padding="20"
-                     Orientation="Horizontal">
-                     <controls:CircleImage
-                          Source="{Binding FullPicture}"
-                          VerticalOptions="Center"
-                          HorizontalOptions="Center"
-                          Aspect="AspectFill"
-                          WidthRequest="140"
-                          HeightRequest="140">
-                     </controls:CircleImage>
-                     <controls:CircleImage
-                          Source="{Binding ImageSource}" 
-                          VerticalOptions="Center"
-                          HorizontalOptions="Center"
-                          Aspect="AspectFill"
-                          WidthRequest="140"
-                          HeightRequest="140">
-                     </controls:CircleImage>
-                     <StackLayout>
-                          <Image
+                    Padding="8">
+                    <Grid>
+                        <Grid Grid.Row="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="80"></ColumnDefinition>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Label
+                                Grid.Column="0"
+                                Text="First name"
+                                HorizontalOptions="Start"
+                                VerticalOptions="Center"
+                                TextColor="{StaticResource FontColor}">
+                            </Label>
+                            <Entry
+                                Grid.Column="1"
+                                BackgroundColor="White"
+                                TextColor="{StaticResource FontColor}"
+                                Placeholder="First name"
+                                Text="{Binding FirstName, Mode=TwoWay}">
+                            </Entry>
+                        </Grid>
+                        <Grid Grid.Row="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="80"></ColumnDefinition>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Label
+                                Grid.Column="0"
+                                Text="Last name"
+                                HorizontalOptions="Start"
+                                VerticalOptions="Center"
+                                TextColor="{StaticResource FontColor}">
+                            </Label>
+                            <Entry
+                                Grid.Column="1"
+                                BackgroundColor="White"
+                                TextColor="{StaticResource FontColor}"
+                                Placeholder="Last Name"
+                                Text="{Binding LastName, Mode=TwoWay}">
+                            </Entry>
+                        </Grid>
+                        <Grid Grid.Row="2">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="80"></ColumnDefinition>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Label
+                                Grid.Column="0"
+                                Text="Employee code"
+                                HorizontalOptions="Start"
+                                VerticalOptions="Center"
+                                TextColor="{StaticResource FontColor}">
+                            </Label>
+                            <Entry
+                                Grid.Column="1"
+                                BackgroundColor="White"
+                                TextColor="{StaticResource FontColor}"
+                                Placeholder="Employee Id"
+                                Text="{Binding EmployeeCode, Mode=TwoWay}"
+                                Keyboard="Numeric">
+                            </Entry>
+                        </Grid>
+                        <Grid Grid.Row="3">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="80"></ColumnDefinition>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Label
+                                Grid.Column="0"
+                                Text="Document type"
+                                HorizontalOptions="Start"
+                                VerticalOptions="Center"
+                                TextColor="{StaticResource FontColor}">
+                            </Label>
+                            <control:BindablePicker
+                                Grid.Column="1"
+                                HeightRequest="45"
+                                Title="Select a Document type" 
+                                DisplayMemberPath="Description" 
+                                SelectedValuePath="DocumentTypeId"
+                                TextColor="{StaticResource FontColor}"
+                                BackgroundColor="White"
+                                ItemsSource="{Binding DocumentTypes}"
+                                SelectedValue="{Binding Path=DocumentTypeId, Mode=TwoWay}"
+                                SelectedIndex="{Binding SourceIndex, Mode=TwoWay}"
+                                HorizontalOptions="FillAndExpand" 
+                                VerticalOptions="Center">
+                            </control:BindablePicker>
+                        </Grid>
+                        <Grid Grid.Row="4">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="80"></ColumnDefinition>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Label
+                                Grid.Column="0"
+                                Text="Document"
+                                HorizontalOptions="Start"
+                                VerticalOptions="Center"
+                                TextColor="{StaticResource FontColor}">
+                            </Label>
+                            <Entry
+                                Grid.Column="1"
+                                BackgroundColor="White"
+                                TextColor="{StaticResource FontColor}"
+                                Placeholder="Document"
+                                Text="{Binding Document, Mode=TwoWay}"
+                                Keyboard="Numeric">
+                            </Entry>
+                        </Grid>
+                        <Grid Grid.Row="5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="80"></ColumnDefinition>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Label
+                                Grid.Column="0"
+                                Text="Email"
+                                HorizontalOptions="Start"
+                                VerticalOptions="Center"
+                                TextColor="{StaticResource FontColor}">
+                            </Label>
+                            <Entry
+                                Grid.Column="1"
+                                BackgroundColor="White"
+                                TextColor="{StaticResource FontColor}"
+                                Placeholder="Email"
+                                Text="{Binding Email, Mode=TwoWay}"
+                                Keyboard="Email">
+                            </Entry>
+                        </Grid>
+                        <Grid Grid.Row="6">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="80"></ColumnDefinition>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Label
+                                Grid.Column="0"
+                                Text="Phone"
+                                HorizontalOptions="Start"
+                                VerticalOptions="Center"
+                                TextColor="{StaticResource FontColor}">
+                            </Label>
+                            <Entry
+                                Grid.Column="1"
+                                BackgroundColor="White"
+                                TextColor="{StaticResource FontColor}"
+                                Placeholder="Phone"
+                                Text="{Binding Phone, Mode=TwoWay}"
+                                Keyboard="Numeric">
+                            </Entry>
+                        </Grid>
+                        <Grid Grid.Row="7">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="80"></ColumnDefinition>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Label
+                                Grid.Column="0"
+                                Text="Address"
+                                HorizontalOptions="Start"
+                                VerticalOptions="Center"
+                                TextColor="{StaticResource FontColor}">
+                            </Label>
+                            <Entry
+                                Grid.Column="1"
+                                BackgroundColor="White"
+                                TextColor="{StaticResource FontColor}"
+                                Placeholder="Address"
+                                Text="{Binding Address, Mode=TwoWay}">
+                            </Entry>
+                        </Grid>
+                    </Grid>
+                    <StackLayout
+                        Padding="20"
+                        Orientation="Horizontal">
+                        <controls:CircleImage
+                            Source="{Binding FullPicture}"
+                            VerticalOptions="Center"
+                            HorizontalOptions="Center"
+                            Aspect="AspectFill"
+                            WidthRequest="140"
+                            HeightRequest="140">
+                        </controls:CircleImage>
+                        <controls:CircleImage
+                            Source="{Binding ImageSource}" 
+                            VerticalOptions="Center"
+                            HorizontalOptions="Center"
+                            Aspect="AspectFill"
+                            WidthRequest="140"
+                            HeightRequest="140">
+                        </controls:CircleImage>
+                        <StackLayout>
+                            <Image
                               Source="ic_camera.png">
-                              <Image.GestureRecognizers>
-                                  <TapGestureRecognizer Command="{Binding TakePictureCommand}"/>
-                              </Image.GestureRecognizers>
-                          </Image>
-                          <Image
+                                <Image.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding TakePictureCommand}"/>
+                                </Image.GestureRecognizers>
+                            </Image>
+                            <Image
                               Source="ic_gallery.png">
-                              <Image.GestureRecognizers>
-                                  <TapGestureRecognizer Command="{Binding GalleryCommand}"/>
-                              </Image.GestureRecognizers>
-                          </Image>
-                      </StackLayout>
-                  </StackLayout>
-                <ActivityIndicator
+                                <Image.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding GalleryCommand}"/>
+                                </Image.GestureRecognizers>
+                            </Image>
+                        </StackLayout>
+                    </StackLayout>
+                    <ActivityIndicator
                         VerticalOptions="CenterAndExpand"
                         IsRunning="{Binding IsRunning}">
-                </ActivityIndicator>
-                <StackLayout
-                    Padding="20"
-                    Orientation="Horizontal">
-                    <Button 
+                    </ActivityIndicator>
+                    <StackLayout
+                        Padding="20"
+                        Orientation="Horizontal">
+                        <Button 
                             Text="Save" 
                             VerticalOptions="CenterAndExpand" 
                             HorizontalOptions="FillAndExpand"
@@ -236,8 +239,8 @@
                             BorderRadius="20"
                             IsEnabled="{Binding IsEnabled}"
                             Command="{Binding SaveCommand}">
-                    </Button>
-                    <Button 
+                        </Button>
+                        <Button 
                             Text="Change Password" 
                             VerticalOptions="CenterAndExpand" 
                             HorizontalOptions="FillAndExpand"
@@ -246,10 +249,99 @@
                             HeightRequest="40"
                             BorderRadius="20"
                             IsEnabled="{Binding IsEnabled}"
-                            Command="{Binding ChangePassword}">
-                    </Button>
+                            Command="{Binding ChangePasswordCommand}"
+                            Clicked="ChangePassword">
+                        </Button>
+                    </StackLayout>
                 </StackLayout>
-            </StackLayout>
-        </ScrollView>
+            </ScrollView>
+            <!-- Password modal -->
+            <ContentView 
+                x:Name="PasswordModal" 
+                AbsoluteLayout.LayoutBounds="0, 0, 1, 1" 
+                AbsoluteLayout.LayoutFlags="All" 
+                IsVisible="False" 
+                BackgroundColor="#C0808080" 
+                Padding="10, 0">
+                <StackLayout 
+                    Orientation="Vertical" 
+                    BackgroundColor="White" 
+                    HeightRequest="300" 
+                    WidthRequest="300" 
+                    HorizontalOptions="Center" 
+                    VerticalOptions="Start" 
+                    Margin="0,40,0,0">
+                    <Label
+                        BackgroundColor="{StaticResource MainColor}"
+                        TextColor="{StaticResource BackgroundColor}" 
+                        HorizontalOptions="Fill" 
+                        Text="Current Password">
+                    </Label>
+                    <Entry 
+                        x:Name="CurrentPassword" 
+                        Placeholder="Current Password" 
+                        TextColor="Black" 
+                        VerticalOptions="CenterAndExpand" 
+                        HorizontalOptions="Center" 
+                        WidthRequest="250"
+                        IsPassword="True">
+                    </Entry>
+                    <Label
+                        BackgroundColor="{StaticResource MainColor}"
+                        TextColor="{StaticResource BackgroundColor}" 
+                        HorizontalOptions="Fill" 
+                        Text="New Password">
+                    </Label>
+                    <Entry 
+                        x:Name="NewPassword" 
+                        Placeholder="New Password" 
+                        TextColor="Black" 
+                        VerticalOptions="CenterAndExpand" 
+                        HorizontalOptions="Center" 
+                        WidthRequest="250"
+                        IsPassword="True">
+                    </Entry>
+                    <Label
+                        BackgroundColor="{StaticResource MainColor}"
+                        TextColor="{StaticResource BackgroundColor}" 
+                        HorizontalOptions="Fill" 
+                        Text="Confirm Password">
+                    </Label>
+                    <Entry 
+                        x:Name="ConfirmPassword" 
+                        Placeholder="Confirm Password" 
+                        TextColor="Black" 
+                        VerticalOptions="CenterAndExpand" 
+                        HorizontalOptions="Center" 
+                        WidthRequest="250"
+                        IsPassword="True">
+                    </Entry>
+                    <StackLayout
+                        Padding="20"
+                        Orientation="Horizontal">
+                        <Button 
+                            Text="Cancel" 
+                            VerticalOptions="CenterAndExpand" 
+                            HorizontalOptions="FillAndExpand"
+                            BackgroundColor="Red"
+                            TextColor="White"
+                            HeightRequest="40"
+                            BorderRadius="20"
+                            Clicked="CancelPasswordClicked">
+                        </Button>
+                        <Button 
+                            Text="Save" 
+                            VerticalOptions="CenterAndExpand" 
+                            HorizontalOptions="FillAndExpand"
+                            BackgroundColor="Green"
+                            TextColor="White"
+                            HeightRequest="40"
+                            BorderRadius="20"
+                            Clicked="SavePasswordClicked">
+                        </Button>
+                    </StackLayout>
+                </StackLayout>
+            </ContentView>
+        </AbsoluteLayout>
     </ContentPage.Content>
 </ContentPage>

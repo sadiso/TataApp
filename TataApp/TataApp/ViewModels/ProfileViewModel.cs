@@ -30,11 +30,12 @@ namespace TataApp.ViewModels
         bool isRunning;
         bool isEnabled;
         int sourceIndex = -1;
-        private ImageSource imageSource;
-        private MediaFile file;
-        private Employee employee;
-        public List<DocumentType> documentTypes;
-        public Employee EditEmployee;
+        ImageSource imageSource;
+        MediaFile file;
+        Employee employee;
+        List<DocumentType> documentTypes;
+        Employee EditEmployee;
+        byte[] imageArray;
         #endregion
 
         #region Properties
@@ -259,6 +260,35 @@ namespace TataApp.ViewModels
             var editEmployee = (Employee)response.Result;
             EditEmployee.Picture = editEmployee.Picture;
         }
+
+        public void CreateUser()
+        {
+            imageArray = null;
+            if (file != null)
+            {
+                imageArray = FilesHelper.ReadFully(file.GetStream());
+            }
+
+            EditEmployee = new Employee
+            {
+                EmployeeId = employee.EmployeeId,
+                FirstName = FirstName,
+                LastName = LastName,
+                EmployeeCode = EmployeeCode,
+                DocumentTypeId = DocumentTypes.ElementAt(SourceIndex).DocumentTypeId,
+                LoginTypeId = employee.LoginTypeId,
+                Document = Document,
+                Email = Email,
+                Phone = Phone,
+                Address = Address,
+                ImageArray = imageArray,
+                Password = employee.Password,
+                AccessToken = employee.AccessToken,
+                TokenType = employee.TokenType,
+                TokenExpires = employee.TokenExpires,
+                IsRemembered = employee.IsRemembered,
+            };
+        }
         #endregion
 
         #region Commands
@@ -339,32 +369,7 @@ namespace TataApp.ViewModels
         {
             FieldValidations();
 
-            byte[] imageArray = null;
-            if (file != null)
-            {
-                imageArray = FilesHelper.ReadFully(file.GetStream());
-                file.Dispose();
-            }
-
-            EditEmployee = new Employee
-            {
-                EmployeeId = employee.EmployeeId,
-                FirstName = FirstName,
-                LastName = LastName,
-                EmployeeCode = EmployeeCode,
-                DocumentTypeId = DocumentTypes.ElementAt(SourceIndex).DocumentTypeId,
-                LoginTypeId = employee.LoginTypeId,
-                Document = Document,
-                Email = Email,
-                Phone = Phone,
-                Address = Address,
-                ImageArray = imageArray,
-                Password = employee.Password,
-                AccessToken = employee.AccessToken,
-                TokenType = employee.TokenType,
-                TokenExpires = employee.TokenExpires,
-                IsRemembered = employee.IsRemembered,
-    };
+            CreateUser();
 
             IsRunning = true;
             IsEnabled = false;
@@ -387,12 +392,26 @@ namespace TataApp.ViewModels
 
             await GetUser();
 
+            file.Dispose();
+
             IsRunning = false;
             IsEnabled = true;
 
             var mainViewModel = MainViewModel.GetInstance();
             mainViewModel.Employee = EditEmployee;
             navigationService.SetMainPage("MasterPage");
+        }
+
+        public ICommand ChangePasswordCommand
+        {
+            get { return new RelayCommand(ChangePassword); }
+        }
+
+        private void ChangePassword()
+        {
+            CreateUser();
+            var mainViewModel = MainViewModel.GetInstance();
+            mainViewModel.Employee = EditEmployee;
         }
         #endregion
     }
