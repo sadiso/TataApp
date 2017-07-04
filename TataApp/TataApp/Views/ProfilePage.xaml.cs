@@ -14,6 +14,7 @@
         #region Attributes
         ApiService apiService;
         DialogService dialogService;
+        DataService dataService;
         Employee employee;
         MainViewModel mainViewModel;
         #endregion
@@ -23,10 +24,9 @@
         {
             apiService = new ApiService();
             dialogService = new DialogService();
+            dataService = new DataService();
 
             InitializeComponent();
-
-
         } 
         #endregion
 
@@ -45,51 +45,6 @@
 
         async void SavePasswordClicked(object sender, EventArgs args)
         {
-            await ValidationFields();
-
-            var checkConnetion = await apiService.CheckConnection();
-            if (!checkConnetion.IsSuccess)
-            {
-                await dialogService.ShowMessage("Error", checkConnetion.Message);
-                return;
-            }
-
-            var urlAPI = Application.Current.Resources["URLAPI"].ToString();
-
-            var changePassword = new ChangePasswordRequest
-            {
-                Email = employee.Email,
-                CurrentPassword = CurrentPassword.Text,
-                NewPassword = NewPassword.Text,
-            };
-
-            var response = await apiService.Post(
-                urlAPI,
-                "/api",
-                "/Employees/ChangePassword",
-                employee.TokenType,
-                employee.AccessToken,
-                changePassword);
-
-            if (!response.IsSuccess)
-            {
-                await dialogService.ShowMessage("Error", response.Message);
-                return;
-            }
-
-            mainViewModel.Employee.Password = changePassword.NewPassword;
-
-            PasswordModal.IsVisible = false;
-        }
-
-        void CancelPasswordClicked(object sender, EventArgs args)
-        {
-            PasswordModal.IsVisible = false;
-        }
-
-        private async Task ValidationFields()
-        {
-            
             if (string.IsNullOrEmpty(CurrentPassword.Text))
             {
                 await dialogService.ShowMessage("Error", "You must enter the current password.");
@@ -124,6 +79,46 @@
                 NewPassword.Focus();
                 return;
             }
+
+            var checkConnetion = await apiService.CheckConnection();
+            if (!checkConnetion.IsSuccess)
+            {
+                await dialogService.ShowMessage("Error", checkConnetion.Message);
+                return;
+            }
+
+            var urlAPI = Application.Current.Resources["URLAPI"].ToString();
+
+            var changePassword = new ChangePasswordRequest
+            {
+                Email = employee.Email,
+                CurrentPassword = CurrentPassword.Text,
+                NewPassword = NewPassword.Text,
+            };
+
+            var response = await apiService.PostPass<ChangePasswordRequest>(
+                urlAPI,
+                "/api",
+                "/Employees/ChangePassword",
+                employee.TokenType,
+                employee.AccessToken,
+                changePassword);
+
+            if (!response.IsSuccess)
+            {
+                await dialogService.ShowMessage("Error", response.Message);
+                return;
+            }
+
+            mainViewModel.Employee.Password = changePassword.NewPassword;
+            dataService.DeleteAllAndInsert(mainViewModel.Employee);
+            await dialogService.ShowMessage("Accept", "Password has been successfully");
+            PasswordModal.IsVisible = false;
+        }
+
+        void CancelPasswordClicked(object sender, EventArgs args)
+        {
+            PasswordModal.IsVisible = false;
         }
         #endregion
     }

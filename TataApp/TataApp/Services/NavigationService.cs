@@ -17,6 +17,12 @@
                 case "LoginFacebookPage":
                     App.Current.MainPage = new LoginFacebookPage();
                     break;
+                case "NewEmployeePage":
+                    App.Current.MainPage = new NewEmployeePage();
+                    break;
+                case "PasswordRecoveryPage":
+                    App.Current.MainPage = new PasswordRecoveryPage();
+                    break;
                 default:
                     break;
             }

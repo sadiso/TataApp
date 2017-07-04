@@ -6,6 +6,8 @@
     using TataApp.Models;
     using TataApp.Services;
     using Xamarin.Forms;
+    using System;
+
     public class LoginViewModel : INotifyPropertyChanged
     {
         #region Events
@@ -118,7 +120,6 @@
             IsRemembered = true;
 
             Email = "sebas.mejia11@gmail.com";
-            Password = "123456";
         }
         #endregion
 
@@ -218,9 +219,34 @@
             var mainViewModel = MainViewModel.GetInstance();
             mainViewModel.Employee = employee;
             mainViewModel.RegisterDevice();
+            Password = string.Empty;
             navigationService.SetMainPage("MasterPage");
         }
-        #endregion
 
+        public ICommand RegisterCommand
+        {
+            get { return new RelayCommand(Register); }
+        }
+
+        private void Register()
+        {
+            var mainViewModel = MainViewModel.GetInstance();
+            mainViewModel.NewEmployee = new NewEmployeeViewModel();
+            navigationService.SetMainPage("NewEmployeePage");
+        }
+
+        public ICommand ForgotPasswordCommand
+        {
+            get { return new RelayCommand(ForgotPassword); }
+        }
+
+        private void ForgotPassword()
+        {
+            var mainViewModel = MainViewModel.GetInstance();
+            mainViewModel.PasswordRecovery = new PasswordRecoveryViewModel();
+            navigationService.SetMainPage("PasswordRecoveryPage");
+        }
+        
+        #endregion
     }
 }

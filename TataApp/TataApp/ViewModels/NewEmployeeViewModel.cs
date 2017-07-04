@@ -1,19 +1,21 @@
 ﻿namespace TataApp.ViewModels
 {
     using GalaSoft.MvvmLight.Command;
+    using Helpers;
+    using Models;
+    using Newtonsoft.Json;
     using Plugin.Media;
     using Plugin.Media.Abstractions;
+    using Services;
+    using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.ComponentModel;
-    using System.Linq;
-    using System.Threading.Tasks;
+    using System.Net.Http;
     using System.Windows.Input;
-    using Helpers;
-    using Models;
-    using Services;
     using Xamarin.Forms;
-    public class ProfileViewModel : Employee, INotifyPropertyChanged
+
+    public class NewEmployeeViewModel : Employee , INotifyPropertyChanged
     {
         #region Events
         public event PropertyChangedEventHandler PropertyChanged;
@@ -26,13 +28,10 @@
         bool isRunning;
         bool isEnabled;
         int sourceIndex = -1;
+        string confirmPassword;
         ImageSource imageSource;
         MediaFile file;
-        Employee employee;
         List<DocumentType> documentTypes;
-        Employee EditEmployee;
-        byte[] imageArray = null;
-        MainViewModel mainViewModel;
         #endregion
 
         #region Properties
@@ -41,7 +40,7 @@
             get;
             set;
         }
-        
+
         public bool IsRunning
         {
             set
@@ -104,30 +103,31 @@
                 return sourceIndex;
             }
         }
+
+        public string ConfirmPassword
+        {
+            set
+            {
+                if (confirmPassword != value)
+                {
+                    confirmPassword = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("ConfirmPassword"));
+                }
+            }
+            get
+            {
+                return confirmPassword;
+            }
+        }
         #endregion
 
         #region Constructors
-        public ProfileViewModel()
+        public NewEmployeeViewModel()
         {
             apiService = new ApiService();
             dialogService = new DialogService();
             navigationService = new NavigationService();
             DocumentTypes = new ObservableCollection<DocumentTypeItemViewModel>();
-            mainViewModel = MainViewModel.GetInstance();
-
-            employee = mainViewModel.Employee;
-
-            EmployeeId = employee.EmployeeId;
-            FirstName = employee.FirstName;
-            LastName = employee.LastName;
-            EmployeeCode = employee.EmployeeCode;
-            DocumentTypeId = employee.DocumentTypeId;
-            LoginTypeId = employee.LoginTypeId;
-            Document = employee.Document;
-            Picture = employee.Picture;
-            Email = employee.Email;
-            Phone = employee.Phone;
-            Address = employee.Address;
 
             IsEnabled = true;
 
@@ -138,40 +138,49 @@
         #region Methods
         private async void LoadPickers()
         {
-            IsEnabled = false;
-            IsRunning = true;
-
-            var checkConnetion = await apiService.CheckConnection();
-            if (!checkConnetion.IsSuccess)
+            try
             {
-                IsRunning = false;
+                IsEnabled = false;
+                IsRunning = true;
+
+                var checkConnetion = await apiService.CheckConnection();
+                if (!checkConnetion.IsSuccess)
+                {
+                    IsRunning = false;
+                    IsEnabled = true;
+                    await dialogService.ShowMessage("Error", checkConnetion.Message);
+                    return;
+                }
+
+                var urlAPI = Application.Current.Resources["URLAPI"].ToString();
+                var client = new HttpClient();
+                client.BaseAddress = new Uri(urlAPI);
+                var url = "/api//DocumentTypes";
+                var response = await client.GetAsync(url);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    await dialogService.ShowMessage("Error", response.RequestMessage.ToString());
+                }
+
+                var result = await response.Content.ReadAsStringAsync();
+                documentTypes = JsonConvert.DeserializeObject<List<DocumentType>>(result);
+
+                ReloadDocuments();
+
                 IsEnabled = true;
-                await dialogService.ShowMessage("Error", checkConnetion.Message);
+                IsRunning = false;
+            }
+            catch (Exception ex)
+            {
+                await dialogService.ShowMessage("Error", ex.Message.ToString());
                 return;
             }
-
-            var urlAPI = Application.Current.Resources["URLAPI"].ToString();
-
-            var DocumentTypesResponse = await apiService.GetList<DocumentType>(
-                urlAPI,
-                "/api",
-                "/DocumentTypes",
-                employee.TokenType,
-                employee.AccessToken);
-
-            if (DocumentTypesResponse.IsSuccess)
-            {
-                documentTypes = (List<DocumentType>)DocumentTypesResponse.Result;
-                ReloadDocuments();
-            }
-            
-            IsEnabled = true;
-            IsRunning = false;
         }
 
         public void ReloadDocuments()
         {
-            int index = 0;
+            
             DocumentTypes.Clear();
             foreach (var document in documentTypes)
             {
@@ -180,68 +189,7 @@
                     Description = document.Description,
                     DocumentTypeId = document.DocumentTypeId,
                 });
-
-                if (document.DocumentTypeId == employee.DocumentTypeId)
-                {
-                    SourceIndex = index;
-                }
-
-                index += 1;
             }
-        }
-        public async Task GetUser()
-        {
-            var urlAPI = Application.Current.Resources["URLAPI"].ToString();
-
-            var response = await apiService.GetEmployeeByEmailOrCode(
-                urlAPI,
-                "/api",
-                "/Employees/GetGetEmployeeByEmailOrCode",
-                employee.TokenType,
-                employee.AccessToken,
-                employee.Email);
-
-            if (!response.IsSuccess)
-            {
-                IsRunning = false;
-                IsEnabled = true;
-                await dialogService.ShowMessage("Error", "Problem ocurred retrieving user information, try latter.");
-                return;
-            }
-
-            var editEmployee = (Employee)response.Result;
-            EditEmployee.Picture = editEmployee.Picture;
-        }
-
-        public void CreateUser()
-        {
-            
-            if (file != null)
-            {
-                imageArray = FilesHelper.ReadFully(file.GetStream());
-            }
-
-            employee = mainViewModel.Employee;
-
-            EditEmployee = new Employee
-            {
-                EmployeeId = employee.EmployeeId,
-                FirstName = FirstName,
-                LastName = LastName,
-                EmployeeCode = EmployeeCode,
-                DocumentTypeId = DocumentTypes.ElementAt(SourceIndex).DocumentTypeId,
-                LoginTypeId = employee.LoginTypeId,
-                Document = Document,
-                Email = Email,
-                Phone = Phone,
-                Address = Address,
-                ImageArray = imageArray,
-                Password = employee.Password,
-                AccessToken = employee.AccessToken,
-                TokenType = employee.TokenType,
-                TokenExpires = employee.TokenExpires,
-                IsRemembered = employee.IsRemembered,
-            };
         }
         #endregion
 
@@ -362,10 +310,60 @@
                 return;
             }
 
-            CreateUser();
+            if (string.IsNullOrEmpty(Password))
+            {
+                await dialogService.ShowMessage("Error", "You must enter a password.");
+                return;
+            }
+
+            if (string.IsNullOrEmpty(ConfirmPassword))
+            {
+                await dialogService.ShowMessage("Error", "You must enter a confirm password.");
+                return;
+            }
+
+            if (!Password.Equals(ConfirmPassword))
+            {
+                await dialogService.ShowMessage("Error", "Password and confirm password must be equals");
+                return;
+            }
+
+            if (SourceIndex <= 0)
+            {
+                await dialogService.ShowMessage("Error", "Select a document type");
+                return;
+            }
 
             IsRunning = true;
             IsEnabled = false;
+
+            byte[] imageArray = null;
+
+            if (file != null)
+            {
+                imageArray = FilesHelper.ReadFully(file.GetStream());
+                file.Dispose();
+            }
+
+            var NewEmployee = new Employee
+            {
+                EmployeeId = 0,
+                FirstName = FirstName,
+                LastName = LastName,
+                EmployeeCode = EmployeeCode,
+                DocumentTypeId = DocumentTypeId,
+                LoginTypeId = 1,
+                Document = Document,
+                Email = Email,
+                Phone = Phone,
+                Address = Address,
+                ImageArray = imageArray,
+                Password = Password,
+                //AccessToken = employee.AccessToken,
+                //TokenType = employee.TokenType,
+                //TokenExpires = employee.TokenExpires,
+                //IsRemembered = employee.IsRemembered,
+            };
 
             var urlAPI = Application.Current.Resources["URLAPI"].ToString();
 
@@ -373,39 +371,18 @@
                 urlAPI,
                 "/api",
                 "/Employees",
-                employee.TokenType,
-                employee.AccessToken,
-                EditEmployee);
+                NewEmployee);
 
             if (!response.IsSuccess)
             {
                 await dialogService.ShowMessage("Error", response.Message);
+                IsRunning = false;
+                IsEnabled = true;
                 return;
-            }
-
-            await GetUser();
-
-            if (file != null)
-            {
-                file.Dispose();
             }
 
             IsRunning = false;
             IsEnabled = true;
-
-            mainViewModel.Employee = EditEmployee;
-            navigationService.SetMainPage("MasterPage");
-        }
-
-        public ICommand ChangePasswordCommand
-        {
-            get { return new RelayCommand(ChangePassword); }
-        }
-
-        private void ChangePassword()
-        {
-            CreateUser();
-            mainViewModel.Employee = employee; //EditEmployee;
         }
         #endregion
     }

@@ -24,6 +24,8 @@
         public EmployeesViewModel Employees { get; set; }
         public EmployeeDetailViewModel EmployeeDetail { get; set; }
         public ProfileViewModel Profile { get; set; }
+        public NewEmployeeViewModel NewEmployee { get; set; }
+        public PasswordRecoveryViewModel PasswordRecovery { get; set; }
         #endregion
 
         #region Constructors

@@ -66,13 +66,13 @@
                                 Text="Employee code"
                                 HorizontalOptions="Start"
                                 VerticalOptions="Center"
-                                TextColor="{StaticResource FontColor}">
+                                TextColor="{StaticResource FontColor}"> 
                             </Label>
                             <Entry
                                 Grid.Column="1"
                                 BackgroundColor="White"
                                 TextColor="{StaticResource FontColor}"
-                                Placeholder="Employee Id"
+                                Placeholder="Employee Code"
                                 Text="{Binding EmployeeCode, Mode=TwoWay}"
                                 Keyboard="Numeric">
                             </Entry>
