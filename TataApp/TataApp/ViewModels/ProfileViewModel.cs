@@ -362,10 +362,10 @@
                 return;
             }
 
-            CreateUser();
-
             IsRunning = true;
             IsEnabled = false;
+
+            CreateUser();
 
             var urlAPI = Application.Current.Resources["URLAPI"].ToString();
 
@@ -380,6 +380,8 @@
             if (!response.IsSuccess)
             {
                 await dialogService.ShowMessage("Error", response.Message);
+                IsRunning = false;
+                IsEnabled = true;
                 return;
             }
 

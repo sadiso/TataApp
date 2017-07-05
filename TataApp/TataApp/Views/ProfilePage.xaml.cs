@@ -96,7 +96,7 @@
                 NewPassword = NewPassword.Text,
             };
 
-            var response = await apiService.PostPass<ChangePasswordRequest>(
+            var response = await apiService.PostPassword<ChangePasswordRequest>(
                 urlAPI,
                 "/api",
                 "/Employees/ChangePassword",

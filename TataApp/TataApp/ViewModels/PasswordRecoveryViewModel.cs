@@ -1,6 +1,7 @@
 ﻿using GalaSoft.MvvmLight.Command;
 using System.ComponentModel;
 using System.Windows.Input;
+using TataApp.Models;
 using TataApp.Services;
 using Xamarin.Forms;
 
@@ -99,13 +100,17 @@ namespace TataApp.ViewModels
             IsRunning = true;
             IsEnabled = false;
 
+            var passwordRecovery = new PasswordRecovery
+            {
+                Email = Email,
+            };
            var urlAPI = Application.Current.Resources["URLAPI"].ToString();
 
-            var response = await apiService.Post(
+            var response = await apiService.PostPasswordRecoverybyEmail(
                 urlAPI,
                 "/api",
                 "/Employees/PasswordRecovery",
-                Email);
+                passwordRecovery);
 
             if (!response.IsSuccess)
             {

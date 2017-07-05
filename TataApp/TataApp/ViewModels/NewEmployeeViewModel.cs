@@ -161,6 +161,9 @@
                 if (!response.IsSuccessStatusCode)
                 {
                     await dialogService.ShowMessage("Error", response.RequestMessage.ToString());
+                    IsRunning = false;
+                    IsEnabled = true;
+                    return;
                 }
 
                 var result = await response.Content.ReadAsStringAsync();
@@ -174,6 +177,8 @@
             catch (Exception ex)
             {
                 await dialogService.ShowMessage("Error", ex.Message.ToString());
+                IsRunning = false;
+                IsEnabled = true;
                 return;
             }
         }
