@@ -20,6 +20,7 @@
         #region Attributes
         private ApiService apiService;
         private DialogService dialogService;
+        private NavigationService navigationService;
         private bool isRefreshing = false;
         private string filter;
         private List<Time> times;
@@ -81,6 +82,7 @@
 
             apiService = new ApiService();
             dialogService = new DialogService();
+            navigationService = new NavigationService();
 
             MyTimes = new ObservableCollection<TimeItemViewModel>();
         }

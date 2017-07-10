@@ -2,9 +2,9 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:control="clr-namespace:TataApp.Controls"
-             x:Class="TataApp.Views.NewTimeTimePage"
+             x:Class="TataApp.Views.EditTimePage"
              Icon="ic_action_av_timer.png"
-             Title="New Time"
+             Title="Edit Time"
              BackgroundColor="{StaticResource BackgroundColor}"
              BindingContext="{Binding Main, Source={StaticResource Locator}}">
     <ContentPage.Content>
@@ -13,7 +13,7 @@
             <ScrollView 
                 AbsoluteLayout.LayoutBounds="0, 0, 1, 1" 
                 AbsoluteLayout.LayoutFlags="All"
-                BindingContext="{Binding NewTime}">
+                BindingContext="{Binding EditTime}">
                 <StackLayout
                     Padding="8">
                     <Grid>
@@ -60,6 +60,7 @@
                                     BackgroundColor="White"
                                     ItemsSource="{Binding Projects}" 
                                     SelectedValue="{Binding Path=ProjectId, Mode=TwoWay}"
+                                    SelectedIndex="{Binding ProjectIndex}"
                                     HorizontalOptions="FillAndExpand" 
                                     VerticalOptions="Center">
                                 </control:BindablePicker>
@@ -98,6 +99,7 @@
                                     BackgroundColor="White"
                                     ItemsSource="{Binding Activities}" 
                                     SelectedValue="{Binding Path=ActivityId, Mode=TwoWay}"
+                                    SelectedIndex="{Binding ActivityIndex}"
                                     HorizontalOptions="FillAndExpand" 
                                     VerticalOptions="Center">
                                 </control:BindablePicker>
@@ -179,22 +181,36 @@
                         VerticalOptions="CenterAndExpand"
                         IsRunning="{Binding IsRunning}">
                     </ActivityIndicator>
-                    <Button
-                        Command="{Binding SaveCommand}"
-                        IsEnabled="{Binding IsEnabled}"
-                        VerticalOptions="End"
-                        HorizontalOptions="FillAndExpand"
-                        BackgroundColor="{StaticResource MainColor}"
-                        TextColor="{StaticResource BackgroundColor}"
-                        HeightRequest="40"
-                        BorderRadius="20"
-                        Text="Save">
-                    </Button>
-                </StackLayout>
+                    <StackLayout
+                        Orientation="Horizontal">
+                        <Button
+                            Command="{Binding SaveCommand}"
+                            IsEnabled="{Binding IsEnabled}"
+                            VerticalOptions="End"
+                            HorizontalOptions="FillAndExpand"
+                            BackgroundColor="{StaticResource MainColor}"
+                            TextColor="{StaticResource BackgroundColor}"
+                            HeightRequest="40"
+                            BorderRadius="20"
+                            Text="Save">
+                        </Button>
+                        <Button
+                            Command="{Binding DeleteCommand}"
+                            IsEnabled="{Binding IsEnabled}"
+                            VerticalOptions="End"
+                            HorizontalOptions="FillAndExpand"
+                            BackgroundColor="{StaticResource FontColor}"
+                            TextColor="{StaticResource BackgroundColor}"
+                            HeightRequest="40"
+                            BorderRadius="20"
+                            Text="Delete">
+                        </Button>
+                    </StackLayout>
+                 </StackLayout>
             </ScrollView>
             <!-- Project modal -->
             <ContentView 
-                x:Name="ProjectModal" 
+                x:Name="ProjectModalEdit" 
                 AbsoluteLayout.LayoutBounds="0, 0, 1, 1" 
                 AbsoluteLayout.LayoutFlags="All" 
                 IsVisible="False" 
@@ -215,7 +231,7 @@
                         Text="New Project">
                     </Label>
                     <Entry 
-                        x:Name="ProjectDescription" 
+                        x:Name="ProjectDescriptionEdit" 
                         Placeholder="Project description.." 
                         TextColor="Black" 
                         VerticalOptions="CenterAndExpand" 
@@ -250,7 +266,7 @@
             </ContentView>
             <!-- Activity modal -->
             <ContentView 
-                x:Name="ActivityModal" 
+                x:Name="ActivityModalEdit" 
                 AbsoluteLayout.LayoutBounds="0, 0, 1, 1" 
                 AbsoluteLayout.LayoutFlags="All" 
                 IsVisible="False" 
@@ -271,7 +287,7 @@
                         Text="New Activity">
                     </Label>
                     <Entry 
-                        x:Name="ActivityDescription" 
+                        x:Name="ActivityDescriptionEdit" 
                         Placeholder="Activity description.." 
                         TextColor="Black" 
                         VerticalOptions="CenterAndExpand" 

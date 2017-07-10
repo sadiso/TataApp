@@ -369,7 +369,7 @@
 
             var urlAPI = Application.Current.Resources["URLAPI"].ToString();
 
-            var response = await apiService.Post<Employee>(
+            var response = await apiService.Put<Employee>(
                 urlAPI,
                 "/api",
                 "/Employees",

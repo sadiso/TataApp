@@ -52,6 +52,9 @@
                 case "ProfilePage":
                     await App.Navigator.PushAsync(new ProfilePage());
                     break;
+                case "EditTimePage":
+                    await App.Navigator.PushAsync(new EditTimePage());
+                    break;
                 default:
                     break;
             }

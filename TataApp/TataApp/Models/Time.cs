@@ -34,5 +34,10 @@
         {
             get { return string.Format("{0}, Hours: {1:N1}", Activity.Description, (To - From).TotalHours); }
         }
+
+        public override int GetHashCode()
+        {
+            return TimeId;
+        }
     }
 }

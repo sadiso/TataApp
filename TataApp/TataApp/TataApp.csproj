@@ -40,6 +40,7 @@
     </Compile>
     <Compile Include="Controls\BindablePicker.cs" />
     <Compile Include="Data\DataAccess.cs" />
+    <Compile Include="Helpers\AsyncHelpers.cs" />
     <Compile Include="Helpers\FilesHelper.cs" />
     <Compile Include="Infrastructure\InstanceLocator.cs" />
     <Compile Include="Interfaces\IConfig.cs" />
@@ -66,6 +67,7 @@
     <Compile Include="Services\NavigationService.cs" />
     <Compile Include="ViewModels\ActivityItemViewModel.cs" />
     <Compile Include="ViewModels\DocumentTypeItemViewModel.cs" />
+    <Compile Include="ViewModels\EditTimeViewModel.cs" />
     <Compile Include="ViewModels\EmployeeDetailViewModel.cs" />
     <Compile Include="ViewModels\EmployeeItemViewModel.cs" />
     <Compile Include="ViewModels\EmployeesViewModel.cs" />
@@ -80,6 +82,9 @@
     <Compile Include="ViewModels\ProjectItemViewModel.cs" />
     <Compile Include="ViewModels\TimeItemViewModel.cs" />
     <Compile Include="ViewModels\TimesViewModel.cs" />
+    <Compile Include="Views\EditTimePage.xaml.cs">
+      <DependentUpon>EditTimePage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\EmployeeDetailPage.xaml.cs">
       <DependentUpon>EmployeeDetailPage.xaml</DependentUpon>
     </Compile>
@@ -308,6 +313,12 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Views\PasswordRecoveryPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Views\EditTimePage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>

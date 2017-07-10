@@ -26,6 +26,7 @@
         public ProfileViewModel Profile { get; set; }
         public NewEmployeeViewModel NewEmployee { get; set; }
         public PasswordRecoveryViewModel PasswordRecovery { get; set; }
+        public EditTimeViewModel EditTime { get; set; }
         #endregion
 
         #region Constructors

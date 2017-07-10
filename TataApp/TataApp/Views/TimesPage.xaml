@@ -26,9 +26,9 @@
                     <DataTemplate>
                         <ViewCell>
                             <Grid>
-                                <Grid.GestureRecognizers>
+                                <!--<Grid.GestureRecognizers>
                                     <TapGestureRecognizer Command="{Binding EditTimeCommand}"/>
-                                </Grid.GestureRecognizers>
+                                </Grid.GestureRecognizers>-->
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*"/>
                                     <ColumnDefinition Width="Auto"/>
@@ -58,6 +58,9 @@
                                 <Image 
                                     Grid.Column="1"
                                     Source="ic_chevron_right.png">
+                                    <Image.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding EditTimeCommand}"/>
+                                    </Image.GestureRecognizers>
                                 </Image>
                             </Grid>
                         </ViewCell>

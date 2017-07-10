@@ -1,19 +1,17 @@
 ﻿namespace TataApp.ViewModels
 {
+    using GalaSoft.MvvmLight.Command;
+    using Models;
+    using Services;
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.ComponentModel;
-    using Models;
-    using Services;
-    using Xamarin.Forms;
     using System.Linq;
     using System.Windows.Input;
-    using GalaSoft.MvvmLight.Command;
-    using Helpers;
-    using System.Threading.Tasks;
+    using Xamarin.Forms;
 
-    public class NewTimeViewModel : Time, INotifyPropertyChanged
+    public class EditTimeViewModel : Time, INotifyPropertyChanged
     {
         #region Events
         public event PropertyChangedEventHandler PropertyChanged;
@@ -26,14 +24,12 @@
         GeolocatorService geolocatorService;
         bool isRunning;
         bool isEnabled;
-        bool isRepeated;
-        bool isRepeatMonday;
-        bool isRepeatTuesday;
-        bool isRepeatWednesday;
-        bool isRepeatThursday;
-        bool isRepeatFriday;
-        bool isRepeatSaturday;
-        bool isRepeatSunday;
+        int projectIndex;
+        int activityIndex;
+        Time editTime;
+        string urlAPI;
+        MainViewModel mainViewModel;
+        Employee employee;
         public List<Project> projects;
         public List<Activity> activities;
         #endregion
@@ -58,12 +54,6 @@
         }
 
         public string ToString
-        {
-            get;
-            set;
-        }
-
-        public DateTime Until
         {
             get;
             set;
@@ -100,200 +90,70 @@
                 return isEnabled;
             }
         }
-
-        public bool IsRepeated
+        public int ProjectIndex
         {
             set
             {
-                if (isRepeated != value)
+                if (projectIndex != value)
                 {
-                    isRepeated = value;
-                    if (!isRepeated)
-                    {
-                        TurnOffDays();
-                    }
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("IsRepeated"));
+                    projectIndex = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("ProjectIndex"));
                 }
             }
             get
             {
-                return isRepeated;
+                return projectIndex;
             }
         }
-
-        public bool IsRepeatMonday
+        public int ActivityIndex
         {
             set
             {
-                if (isRepeatMonday != value)
+                if (activityIndex != value)
                 {
-                    isRepeatMonday = value;
-                    if (value)
-                    {
-                        IsRepeated = true;
-                    }
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("IsRepeatMonday"));
+                    activityIndex = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("ActivityIndex"));
                 }
             }
             get
             {
-                return isRepeatMonday;
-            }
-        }
-
-        public bool IsRepeatTuesday
-        {
-            set
-            {
-                if (isRepeatTuesday != value)
-                {
-                    isRepeatTuesday = value;
-                    if (value)
-                    {
-                        IsRepeated = true;
-                    }
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("IsRepeatTuesday"));
-                }
-            }
-            get
-            {
-                return isRepeatTuesday;
-            }
-        }
-
-        public bool IsRepeatWednesday
-        {
-            set
-            {
-                if (isRepeatWednesday != value)
-                {
-                    isRepeatWednesday = value;
-                    if (value)
-                    {
-                        IsRepeated = true;
-                    }
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("IsRepeatWednesday"));
-                }
-            }
-            get
-            {
-                return isRepeatWednesday;
-            }
-        }
-
-        public bool IsRepeatThursday
-        {
-            set
-            {
-                if (isRepeatThursday != value)
-                {
-                    isRepeatThursday = value;
-                    if (value)
-                    {
-                        IsRepeated = true;
-                    }
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("IsRepeatThursday"));
-                }
-            }
-            get
-            {
-                return isRepeatThursday;
-            }
-        }
-
-        public bool IsRepeatFriday
-        {
-            set
-            {
-                if (isRepeatFriday != value)
-                {
-                    isRepeatFriday = value;
-                    if (value)
-                    {
-                        IsRepeated = true;
-                    }
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("IsRepeatFriday"));
-                }
-            }
-            get
-            {
-                return isRepeatFriday;
-            }
-        }
-
-        public bool IsRepeatSaturday
-        {
-            set
-            {
-                if (isRepeatSaturday != value)
-                {
-                    isRepeatSaturday = value;
-                    if (value)
-                    {
-                        IsRepeated = true;
-                    }
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("IsRepeatSaturday"));
-                }
-            }
-            get
-            {
-                return isRepeatSaturday;
-            }
-        }
-
-        public bool IsRepeatSunday
-        {
-            set
-            {
-                if (isRepeatSunday != value)
-                {
-                    isRepeatSunday = value;
-                    if (value)
-                    {
-                        IsRepeated = true;
-                    }
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("IsRepeatSunday"));
-                }
-            }
-            get
-            {
-                return isRepeatSunday;
+                return activityIndex;
             }
         }
         #endregion
 
-        #region Constructor
-        public NewTimeViewModel()
+        #region Constructors
+        public EditTimeViewModel(Time time)
         {
-            instance = this;
+            editTime = time;
 
             apiService = new ApiService();
             dialogService = new DialogService();
             navigationService = new NavigationService();
             geolocatorService = new GeolocatorService();
-
-            IsEnabled = true;
-            Until = DateTime.Today;
-            DateReported = DateTime.Today;
-
             Projects = new ObservableCollection<ProjectItemViewModel>();
             Activities = new ObservableCollection<ActivityItemViewModel>();
 
+            urlAPI = Application.Current.Resources["URLAPI"].ToString();
+            mainViewModel = MainViewModel.GetInstance();
+            employee = mainViewModel.Employee;
+
             LoadPickers();
-        }
-        #endregion
+            //AsyncHelpers.RunSync(() => LoadPickers());
 
-        #region Singleton
-        private static NewTimeViewModel instance;
-
-        public static NewTimeViewModel GetInstance()
-        {
-            if (instance == null)
-            {
-                instance = new NewTimeViewModel();
-            }
-
-            return instance;
+            //Activity = time.Activity;
+            //ActivityId = time.ActivityId;
+            //DateRegistered = time.DateRegistered;
+            DateReported = time.DateReported;
+            //EmployeeId = time.EmployeeId;
+            FromString = time.From.ToString().Substring(10, 6);
+            //Project = time.Project;
+            //ProjectId = time.ProjectId;
+            Remarks = time.Remarks;
+            //TimeId = time.TimeId;
+            ToString = time.To.ToString().Substring(10, 6);
+            
+            IsEnabled = true;
         }
         #endregion
 
@@ -311,10 +171,6 @@
                 await dialogService.ShowMessage("Error", checkConnetion.Message);
                 return;
             }
-
-            var urlAPI = Application.Current.Resources["URLAPI"].ToString();
-            var mainViewModel = MainViewModel.GetInstance();
-            var employee = mainViewModel.Employee;
 
             var projectsResponse = await apiService.GetList<Project>(
                 urlAPI,
@@ -348,19 +204,29 @@
 
         public void ReloadProjects()
         {
+            var index = 0;
             Projects.Clear();
             foreach (var project in projects.OrderBy(p => p.Description))
             {
+                
                 Projects.Add(new ProjectItemViewModel
                 {
                     Description = project.Description,
                     ProjectId = project.ProjectId,
                 });
+
+                if (project.ProjectId == editTime.ProjectId)
+                {
+                    ProjectIndex = index;
+                }
+
+                index++;
             }
         }
 
         public void ReloadActivities()
         {
+            var index = 0;
             Activities.Clear();
             foreach (var activity in activities.OrderBy(a => a.Description))
             {
@@ -369,18 +235,15 @@
                     Description = activity.Description,
                     ActivityId = activity.ActivityId,
                 });
+
+                if (activity.ActivityId == editTime.ActivityId)
+                {
+                    ActivityIndex = index;
+                }
+
+                index++;
             }
-        }
-        private void TurnOffDays()
-        {
-            IsRepeatMonday = false;
-            IsRepeatTuesday = false;
-            IsRepeatWednesday = false;
-            IsRepeatThursday = false;
-            IsRepeatFriday = false;
-            IsRepeatSaturday = false;
-            IsRepeatSunday = false;
-        }
+        }        
         private void ConvertHours()
         {
             int posTo = ToString.IndexOf(':');
@@ -452,41 +315,72 @@
                 return;
             }
 
-            var urlAPI = Application.Current.Resources["URLAPI"].ToString();
-            var mainViewModel = MainViewModel.GetInstance();
-            var employee = mainViewModel.Employee;
-
             await geolocatorService.GetLocation();
 
-            var newTimeRequest = new NewTimeRequest
+            var activitySelected = Activities.ElementAt(ActivityIndex);
+            var projectSelected = Projects.ElementAt(ProjectIndex);
+
+            var time = new Time
             {
-                ActivityId = ActivityId,
+                Activity = activitySelected,
+                ActivityId = activitySelected.ActivityId,
+                DateRegistered = DateTime.Today,
                 DateReported = DateReported,
                 EmployeeId = employee.EmployeeId,
                 From = From,
-                Latitude = geolocatorService.Latitude,
-                Longitude = geolocatorService.Longitude,
-                IsRepeated = IsRepeated,
-                IsRepeatFriday = IsRepeatFriday,
-                IsRepeatMonday = IsRepeatMonday,
-                IsRepeatSaturday = IsRepeatSaturday,
-                IsRepeatSunday = IsRepeatSunday,
-                IsRepeatThursday = IsRepeatThursday,
-                IsRepeatTuesday = IsRepeatTuesday,
-                IsRepeatWednesday = IsRepeatWednesday,
-                ProjectId = ProjectId,
+                Project = projectSelected,
+                ProjectId = projectSelected.ProjectId,
                 Remarks = Remarks,
+                TimeId = editTime.TimeId,
                 To = To,
-                Until = Until,
             };
 
-            var response = await apiService.Post(
+            var response = await apiService.Put(
                 urlAPI,
                 "/api",
                 "/Times",
                 employee.TokenType,
                 employee.AccessToken,
-                newTimeRequest);
+                time);
+
+            IsEnabled = true;
+            IsRunning = false;
+
+            if (!response.IsSuccess)
+            {
+                await dialogService.ShowMessage("Error", response.Message);
+                return;
+            }
+
+            await navigationService.Back();
+        }
+
+        public ICommand DeleteCommand
+        {
+            get { return new RelayCommand(Delete); }
+        }
+
+        async void Delete()
+        {
+            IsEnabled = false;
+            IsRunning = true;
+
+            var checkConnetion = await apiService.CheckConnection();
+            if (!checkConnetion.IsSuccess)
+            {
+                IsRunning = false;
+                IsEnabled = true;
+                await dialogService.ShowMessage("Error", checkConnetion.Message);
+                return;
+            }
+
+            var response = await apiService.Delete(
+                urlAPI,
+                "/api",
+                "/Times",
+                employee.TokenType,
+                employee.AccessToken,
+                editTime);
 
             IsEnabled = true;
             IsRunning = false;
@@ -500,5 +394,5 @@
             await navigationService.Back();
         }
         #endregion
-    }
+     }
 }
